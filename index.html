@@ -62,12 +62,12 @@
 <body class="min-h-screen flex flex-col selection:bg-indigo-100 selection:text-indigo-950">
 
   <!-- ======================================================================= -->
-  <!-- סרגל עליון: כותרת, סטטוס סנכרון, קוד חדר, טיימר 10:00 ו-3 לשוניות     -->
+  <!-- סרגל עליון: סטטוס סנכרון, קוד חדר, טיימר 10:00 ו-2 לשוניות            -->
   <!-- ======================================================================= -->
   <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 shadow-xs">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 space-y-2.5">
 
-      <!-- שורה עליונה: שם הפעילות + חדר + QR + טיימר 10 דקות -->
+      <!-- שורה עליונה: חדר + QR + טיימר 10 דקות -->
       <div class="flex flex-wrap items-center justify-between gap-2">
         
         <!-- צד ימין: חיווי ענן + קוד חדר + כפתור QR -->
@@ -110,7 +110,7 @@
 
         <!-- צד שמאל: טיימר מובנה של 10 דקות (10:00) -->
         <div id="timerWidgetBox" class="flex items-center gap-1.5 bg-slate-100 border border-slate-300 px-2.5 py-1 rounded-xl">
-          <span class="text-xs font-bold text-slate-600 hidden md:inline">⏱️ זמן עבודה:</span>
+          <span class="text-xs font-bold text-slate-600 hidden md:inline">⏱️ זמן עבודה בקבוצות:</span>
           <span id="timerDisplay" class="font-black text-sm sm:text-base text-slate-900 tabular-nums px-1.5">10:00</span>
           <button
             type="button"
@@ -132,18 +132,8 @@
 
       </div>
 
-      <!-- שורה תחתונה בסרגל: 3 הלשוניות הראשיות של האפליקציה -->
-      <nav aria-label="ניווט ראשי" class="grid grid-cols-3 gap-1.5 sm:gap-2 bg-slate-100 p-1 rounded-2xl border border-slate-200">
-        <button
-          type="button"
-          id="mainTab-exhibits"
-          onclick="setMainTab('exhibits')"
-          class="py-2 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center justify-center gap-1.5 cursor-pointer"
-        >
-          <span>🖼️</span>
-          <span>המיצגים והרקע</span>
-        </button>
-
+      <!-- שורה תחתונה בסרגל: 2 הלשוניות של האפליקציה -->
+      <nav aria-label="ניווט ראשי" class="grid grid-cols-2 gap-1.5 sm:gap-2 bg-slate-100 p-1 rounded-2xl border border-slate-200">
         <button
           type="button"
           id="mainTab-student"
@@ -170,187 +160,7 @@
 
 
   <!-- ======================================================================= -->
-  <!-- לשונית 1: המיצגים והרקע (שקפים להקרנה בכיתה + עיון לתלמידים)          -->
-  <!-- ======================================================================= -->
-  <main id="view-exhibits" class="hidden max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 fade-in">
-    
-    <!-- כותרת הראשית של הפעילות + מתג תצוגה (כל המיצגים יחד / מצגת שקף-אחר-שקף) -->
-    <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <div class="space-y-1.5">
-        <span class="inline-block px-3 py-1 rounded-full bg-slate-900 text-white text-xs font-extrabold">
-          הקושי של צרכני מידע להבדיל בין מידע אמיתי לשקרי
-        </span>
-        <h1 class="text-2xl sm:text-4xl font-black text-slate-950 leading-tight">
-          מחליטים לפני שהמידע אומת
-        </h1>
-        <p class="text-sm sm:text-base text-slate-600 font-medium">
-          עיינו בשלושת המיצגים שלפניכם. בעת המענה על השאלות תתבקשו לבסס את עמדתכם על שני מיצגים לפחות ולציין את מספריהם.
-        </p>
-      </div>
-
-      <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200 self-start shrink-0">
-        <button
-          type="button"
-          id="exhibitsLayoutAllBtn"
-          onclick="setExhibitsLayout('all')"
-          class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-extrabold transition cursor-pointer"
-        >
-          כל המיצגים יחד
-        </button>
-        <button
-          type="button"
-          id="exhibitsLayoutSlidesBtn"
-          onclick="setExhibitsLayout('slides')"
-          class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-extrabold transition cursor-pointer"
-        >
-          מצגת שקף-אחר-שקף
-        </button>
-      </div>
-    </div>
-
-    <!-- סרגל ניווט לשקפים (מופיע במצב "מצגת שקף-אחר-שקף") -->
-    <div id="exhibitsSlideControls" class="hidden flex-wrap items-center justify-between gap-2 bg-white p-3 rounded-2xl border border-slate-200 shadow-2xs">
-      <div class="flex flex-wrap items-center gap-2">
-        <button type="button" id="exSlideBtn-1" onclick="setExhibitSlide(1)" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition cursor-pointer">שקף 1: מיצגים 1 ו-2 (הרקע בהודו)</button>
-        <button type="button" id="exSlideBtn-2" onclick="setExhibitSlide(2)" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition cursor-pointer">שקף 2: מיצג 3 (התרחיש וההחלטה)</button>
-        <button type="button" id="exSlideBtn-3" onclick="setExhibitSlide(3)" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition cursor-pointer">שקף 3: 4 הקבוצות והתפקידים</button>
-      </div>
-      <div class="flex items-center gap-2">
-        <button type="button" onclick="stepExhibitSlide(-1)" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold cursor-pointer">→ הקודם</button>
-        <button type="button" onclick="stepExhibitSlide(1)" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-bold cursor-pointer">הבא ←</button>
-      </div>
-    </div>
-
-    <!-- חלק א׳: מיצג 1 ומיצג 2 + באנר אדום לשאלת פתיחה -->
-    <section id="exhibitSection-1" class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-9 shadow-sm space-y-6">
-      <div class="border-b-2 border-red-700 pb-4">
-        <span class="text-xs font-extrabold text-rose-700 uppercase tracking-wide">רקע והשראה מהמציאות</span>
-        <h2 class="text-2xl sm:text-3xl font-black text-slate-950 mt-1">
-          שמועות על חוטפי ילדים בהודו — ממידע כוזב לנזק ממשי
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- מיצג 1 -->
-        <article class="bg-slate-50 rounded-2xl p-6 border-2 border-slate-200 space-y-3 relative">
-          <div class="flex items-center justify-between">
-            <span class="inline-block px-3.5 py-1 rounded-xl bg-slate-900 text-white text-xs sm:text-sm font-black">
-              מיצג 1
-            </span>
-            <span class="text-xs font-bold text-slate-500">1 ביולי 2018</span>
-          </div>
-          <h3 class="text-xl sm:text-2xl font-black text-slate-900">
-            המקרה: ריינפאדה, מחוז דהולה | 1 ביולי 2018
-          </h3>
-          <p class="text-base sm:text-lg text-slate-800 leading-relaxed">
-            חמישה גברים נהרגו לאחר שהמון חשד בהם בטעות בחטיפת ילדים. לפי הדיווח על חקירת המשטרה, השמועה התפשטה ב־WhatsApp וגם מפה לאוזן. בגל השמועות הרחב בהודו הופצו גם סרטונים אמיתיים שהוצאו מהקשרם והוצגו כ״הוכחה״ לפעילות של חוטפי ילדים.
-          </p>
-        </article>
-
-        <!-- מיצג 2 -->
-        <article class="bg-slate-50 rounded-2xl p-6 border-2 border-slate-200 space-y-3 relative">
-          <div class="flex items-center justify-between">
-            <span class="inline-block px-3.5 py-1 rounded-xl bg-slate-900 text-white text-xs sm:text-sm font-black">
-              מיצג 2
-            </span>
-            <span class="text-xs font-bold text-slate-500">תחקיר BBC</span>
-          </div>
-          <h3 class="text-xl sm:text-2xl font-black text-slate-900">
-            היקף התופעה (תחקיר BBC)
-          </h3>
-          <p class="text-base sm:text-lg text-slate-800 leading-relaxed">
-            תחקיר BBC זיהה לפחות <strong>31 הרוגים ב־23 אירועי אלימות בהודו במשך כשנתיים</strong>, על רקע שמועות כוזבות שהופצו ברשתות ובאפליקציות מסרים. זהו נתון מצטבר, ולא מספר ההרוגים באירוע בדהולה.
-          </p>
-        </article>
-      </div>
-
-      <!-- באנר אדום בולט לשאלת פתיחה -->
-      <div class="bg-[#a62323] text-white rounded-2xl p-5 sm:p-7 text-center shadow-md">
-        <div class="text-xs font-extrabold text-rose-200 mb-1">שאלת פתיחה לדיון</div>
-        <p class="text-xl sm:text-3xl font-black leading-snug">
-          באיזה שלב ניתן היה להתערב כדי לצמצם את הסיכון לנזק?
-        </p>
-      </div>
-    </section>
-
-    <!-- חלק ב׳: מיצג 3 — התרחיש וההחלטה המשותפת -->
-    <section id="exhibitSection-2" class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-9 shadow-sm space-y-6">
-      <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-red-700 pb-4">
-        <div>
-          <span class="inline-block px-3.5 py-1 rounded-xl bg-indigo-700 text-white text-xs sm:text-sm font-black mb-1">
-            מיצג 3
-          </span>
-          <h2 class="text-2xl sm:text-3xl font-black text-slate-950">
-            התרחיש וההחלטה המשותפת
-          </h2>
-        </div>
-      </div>
-
-      <!-- תיבת התרחיש -->
-      <div class="bg-[#dce4ee] rounded-2xl p-6 sm:p-8 border border-slate-300 space-y-3">
-        <h3 class="text-xl sm:text-2xl font-black text-slate-950">התרחיש (מיצג 3)</h3>
-        <p class="text-lg sm:text-xl text-slate-900 leading-relaxed">
-          באפליקציית מסרים מוצפנת מתפשטת הודעת אזהרה על חוטפי ילדים. מתקבלים דיווחים שהיא כוזבת ועלולה לעורר אלימות, אך אין עדיין אימות מספק. משתמשים אחרים טוענים שזו התרעה חיונית.
-        </p>
-        <p class="text-lg sm:text-xl font-extrabold text-slate-950">
-          אתם ארבעה צוותים המייעצים להנהלת האפליקציה, כל אחד מנקודת מבט אחרת.
-        </p>
-      </div>
-
-      <!-- תיבת ההחלטה המשותפת -->
-      <div class="bg-[#162338] text-white rounded-2xl p-6 sm:p-8 shadow-md space-y-2.5">
-        <h3 class="text-xl sm:text-2xl font-black text-amber-300">ההחלטה המשותפת (שאלה 1)</h3>
-        <p class="text-lg sm:text-2xl text-white leading-relaxed font-semibold">
-          האם להטיל כבר עכשיו מגבלה זמנית על העברת הודעות לכל המשתמשים, לפני שהמידע אומת, גם במחיר האטת התרעה שעשויה להיות אמיתית?
-        </p>
-      </div>
-
-      <!-- הערת בסיס -->
-      <div class="bg-slate-100 rounded-2xl p-4 text-center border border-slate-200">
-        <p class="text-base sm:text-lg font-extrabold text-slate-800">
-          בשתי החלופות קיימים סימון הודעות מועברות, דיווח משתמשים ובדיקת דיווחים.
-        </p>
-      </div>
-    </section>
-
-    <!-- חלק ג׳: ארבע הקבוצות והתפקידים -->
-    <section id="exhibitSection-3" class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-9 shadow-sm space-y-6">
-      <div class="border-b-2 border-red-700 pb-4">
-        <h2 class="text-2xl sm:text-3xl font-black text-slate-950">
-          ארבע קבוצות, ארבע נקודות מבט
-        </h2>
-        <p class="text-sm sm:text-base text-slate-600 mt-1">
-          כל קבוצה נכנסת מהנייד ללשונית <strong>"מסך תלמידים (מענה קבוצתי)"</strong>, בוחרת את הקבוצה שלה ועונה על 3 השאלות.
-        </p>
-      </div>
-
-      <div id="exhibitsGroupsOverviewGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <!-- מרונדר דינמית -->
-      </div>
-
-      <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-        <button
-          type="button"
-          onclick="setMainTab('student')"
-          class="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-sm sm:text-base shadow-md transition cursor-pointer"
-        >
-          📱 מעבר למסך תלמידים (מענה קבוצתי)
-        </button>
-        <button
-          type="button"
-          onclick="setMainTab('presenter')"
-          class="px-6 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-sm sm:text-base shadow-md transition cursor-pointer"
-        >
-          🖥️ מעבר למסך מציגות והקרנה לכיתה
-        </button>
-      </div>
-    </section>
-
-  </main>
-
-
-  <!-- ======================================================================= -->
-  <!-- לשונית 2: מסך תלמידים (מענה קבוצתי) — מותאם לנייד ולמחשב              -->
+  <!-- לשונית 1: מסך תלמידים (מענה קבוצתי) — מותאם לנייד ולמחשב              -->
   <!-- ======================================================================= -->
   <main id="view-student" class="hidden max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 fade-in">
     
@@ -358,7 +168,7 @@
     <div id="studentPickerSection" class="space-y-6">
       <div class="text-center max-w-2xl mx-auto space-y-2">
         <span class="inline-block px-3.5 py-1 rounded-full bg-indigo-100 text-indigo-900 text-xs sm:text-sm font-extrabold">
-          עבודה קבוצתית בזמן אמת • 10 דקות
+          עבודה קבוצתית בזמן אמת • 10 דקות עבודה + 15 דקות הצגות ודיון
         </span>
         <h1 class="text-2xl sm:text-4xl font-black text-slate-950">
           בחרו את הקבוצה והתפקיד שלכם
@@ -368,16 +178,8 @@
         </p>
       </div>
 
-      <div class="flex flex-wrap items-center justify-between gap-2 bg-white px-4 py-3 rounded-2xl border border-slate-200 shadow-2xs">
-        <button
-          type="button"
-          onclick="openExhibitsModal()"
-          class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-extrabold transition cursor-pointer"
-        >
-          <span>📄</span>
-          <span>הצצה במיצגים 1, 2 ו-3</span>
-        </button>
-        <span id="studentPickerCounter" class="text-xs sm:text-sm font-extrabold text-slate-700 bg-slate-100 px-3 py-1 rounded-full">
+      <div class="flex items-center justify-center">
+        <span id="studentPickerCounter" class="text-xs sm:text-sm font-extrabold text-slate-700 bg-white px-4 py-1.5 rounded-full border border-slate-200 shadow-2xs">
           0/4 קבוצות הגישו
         </span>
       </div>
@@ -391,8 +193,8 @@
     <!-- שלב ב׳: טופס השאלות של הקבוצה הנבחרת -->
     <div id="studentFormSection" class="hidden space-y-5">
       
-      <!-- סרגל עליון בטופס: חזרה לבחירת קבוצה + כפתור מהיר לפתיחת חלונית המיצגים 1, 2 ו-3 -->
-      <div class="flex flex-wrap items-center justify-between gap-2">
+      <!-- סרגל עליון בטופס: חזרה לבחירת קבוצה -->
+      <div class="flex items-center justify-start">
         <button
           type="button"
           onclick="leaveSelectedGroup()"
@@ -401,15 +203,6 @@
           <span>→</span>
           <span>החלפת קבוצה</span>
         </button>
-
-        <button
-          type="button"
-          onclick="openExhibitsModal()"
-          class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-extrabold shadow-2xs transition cursor-pointer"
-        >
-          <span>📄</span>
-          <span>פתיחת מיצגים 1, 2 ו-3 לעיון</span>
-        </button>
       </div>
 
       <!-- כרטיס התפקיד של הקבוצה -->
@@ -417,16 +210,20 @@
         <!-- מרונדר דינמית -->
       </section>
 
-      <!-- תיבת הנחיה בולטת מעל השאלות בדיוק בנוסח המבוקש -->
+      <!-- תיבת הנחיה בולטת מעל השאלות כולל מקורות מידע מותרים -->
       <div class="rounded-2xl bg-amber-50 border-2 border-amber-400 p-4 sm:p-5 shadow-2xs flex items-start gap-3">
         <div class="w-9 h-9 rounded-xl bg-amber-400 text-slate-950 font-black flex items-center justify-center shrink-0 text-lg mt-0.5">
           📌
         </div>
-        <div class="space-y-1">
-          <div class="text-xs font-extrabold text-amber-900">הנחיה מחייבת למענה:</div>
+        <div class="space-y-1.5">
+          <div class="text-xs font-extrabold text-amber-900">הנחיה מחייבת ומקורות מידע מותרים:</div>
           <p class="text-sm sm:text-base font-extrabold text-slate-950 leading-relaxed">
-            ענו מנקודת המבט של התפקיד שהוקצה לכם. בססו את תשובותיכם על שני מיצגים לפחות וציינו את מספריהם. הגישו תשובה אחת לכל קבוצה.
+            ענו מנקודת המבט של התפקיד שהוקצה לכם. הגישו תשובה אחת לכל קבוצה.
           </p>
+          <ul class="text-xs sm:text-sm text-slate-800 space-y-1 list-disc list-inside">
+            <li><strong>מקורות לשאלות 1–3:</strong> בססו את תשובותיכם על <u>המקרה והנתונים שהוצגו בכיתה</u> בלבד (ללא חיפוש חיצוני).</li>
+            <li><strong>מקורות לשאלה 4 (אימות מדיה):</strong> ניתן להיעזר בידע מוקדם או בחיפוש קצר ברשת לזיהוי כלי אימות לטקסט, תמונה, וידאו וקול.</li>
+          </ul>
         </div>
       </div>
 
@@ -443,7 +240,7 @@
         </div>
       </div>
 
-      <!-- טופס 3 השאלות -->
+      <!-- טופס 4 השאלות -->
       <form id="groupSubmissionForm" onsubmit="handleGroupSubmit(event)" class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-7 shadow-sm space-y-6">
         
         <!-- שמות חברי הקבוצה (אופציונלי) -->
@@ -497,13 +294,13 @@
 
           <div>
             <label for="answer1Input" class="block text-sm font-extrabold text-slate-800 mb-1.5">
-              נימוק ההחלטה, תנאים/חלופה וציון מספרי המיצגים (למשל: מיצג 1, מיצג 3):
+              נימוק ההחלטה, תנאים/חלופה וביסוס העמדה על המקרה שהוצג:
             </label>
             <textarea
               id="answer1Input"
               rows="3"
               oninput="markFormDirty()"
-              placeholder="נמקו את בחירתכם (כן / לא), ציינו תנאים או חלופה במידת הצורך, ובססו על המיצגים..."
+              placeholder="נמקו את בחירתכם (כן / לא), ציינו תנאים או חלופה במידת הצורך, ובססו על המקרה..."
               class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed"
             ></textarea>
           </div>
@@ -512,6 +309,72 @@
         <!-- שאלות 2 ו-3 הייעודיות לתפקיד הקבוצה -->
         <div id="roleSpecificQuestionsBox" class="space-y-5">
           <!-- מרונדר דינמית לפי הקבוצה -->
+        </div>
+
+        <!-- שאלה 4 — משותפת לכל הקבוצות: אימות מידע לפי סוג מדיה -->
+        <div class="rounded-2xl bg-indigo-50/70 border-2 border-indigo-200 p-4 sm:p-5 space-y-4">
+          <div class="space-y-1">
+            <span class="inline-block px-3 py-0.5 rounded-lg bg-indigo-700 text-white text-xs font-extrabold">
+              שאלה 4 — משותפת לכל הקבוצות (ניתן להיעזר בידע מוקדם או בחיפוש קצר)
+            </span>
+            <h2 class="text-base sm:text-lg font-black text-slate-950 leading-snug">
+              כיצד ניתן לאמת את המידע החשוד בכל אחד מארבעת סוגי המדיה הבאים? ציינו כלי או שיטת בדיקה מעשית לכל פורמט:
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label for="answer4TextInput" class="block text-xs sm:text-sm font-black text-slate-900 mb-1">
+                📝 מידע טקסטואלי (Text):
+              </label>
+              <textarea
+                id="answer4TextInput"
+                rows="2"
+                oninput="markFormDirty()"
+                placeholder="לדוגמה: הצלבת מקורות אמינים, בדיקת תאריך מקורי, אתרי Fact-checking..."
+                class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              ></textarea>
+            </div>
+
+            <div>
+              <label for="answer4ImageInput" class="block text-xs sm:text-sm font-black text-slate-900 mb-1">
+                🖼️ תמונות (Image):
+              </label>
+              <textarea
+                id="answer4ImageInput"
+                rows="2"
+                oninput="markFormDirty()"
+                placeholder="לדוגמה: חיפוש תמונה הפוך (Google Lens / TinEye), בדיקת מטא-דאטה EXIF..."
+                class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              ></textarea>
+            </div>
+
+            <div>
+              <label for="answer4VideoInput" class="block text-xs sm:text-sm font-black text-slate-900 mb-1">
+                🎬 וידאו (Video):
+              </label>
+              <textarea
+                id="answer4VideoInput"
+                rows="2"
+                oninput="markFormDirty()"
+                placeholder="לדוגמה: פירוק לפריימים (InVID) וחיפוש הפוך, אימות מיקום וסנכרון שפתיים..."
+                class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              ></textarea>
+            </div>
+
+            <div>
+              <label for="answer4AudioInput" class="block text-xs sm:text-sm font-black text-slate-900 mb-1">
+                🎙️ קול (Audio):
+              </label>
+              <textarea
+                id="answer4AudioInput"
+                rows="2"
+                oninput="markFormDirty()"
+                placeholder="לדוגמה: זיהוי אינטונציה מלאכותית, בדיקת רעשי רקע אחידים, אימות מול מקור רשמי..."
+                class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              ></textarea>
+            </div>
+          </div>
         </div>
 
         <!-- כפתור שליחת תשובת הקבוצה ללוח הכיתה -->
@@ -535,14 +398,14 @@
 
 
   <!-- ======================================================================= -->
-  <!-- לשונית 3: מסך מציגות והקרנה לכיתה (לוח תוצאות חי + Spotlight Mode)     -->
+  <!-- לשונית 2: מסך מציגות והקרנה לכיתה (לוח תוצאות חי + Spotlight Mode)     -->
   <!-- ======================================================================= -->
   <main id="view-presenter" class="hidden max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6 fade-in">
     
     <!-- סרגל כלים למציגות -->
     <div class="bg-white rounded-2xl border border-slate-200 p-3.5 sm:p-4 shadow-2xs flex flex-wrap items-center justify-between gap-3">
       
-      <!-- צד ימין: QR + תשובות לדוגמה + איפוס -->
+      <!-- צד ימין: QR + מדריך אימות + תשובות לדוגמה + איפוס -->
       <div class="flex flex-wrap items-center gap-2">
         <button
           type="button"
@@ -551,6 +414,15 @@
         >
           <span>📲</span>
           <span>קוד QR וקישור לתלמידים</span>
+        </button>
+
+        <button
+          type="button"
+          onclick="toggleVerificationGuide()"
+          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-300 transition cursor-pointer"
+        >
+          <span>📋</span>
+          <span>מפתח לדיון: אימות מדיה</span>
         </button>
 
         <button
@@ -583,6 +455,35 @@
       </div>
 
     </div>
+
+    <!-- מדריך מתקפל למנחות ולכיתה: סיכום שיטות אימות מידע (טקסט, תמונה, וידאו, קול) -->
+    <section id="verificationGuidePanel" class="hidden bg-emerald-950 text-white rounded-3xl p-5 sm:p-6 shadow-lg border border-emerald-800 space-y-4">
+      <div class="flex items-center justify-between border-b border-emerald-800 pb-3">
+        <div>
+          <span class="text-xs font-extrabold text-emerald-300">נקודות סיכום לדיון המליאה בכיתה</span>
+          <h2 class="text-lg sm:text-xl font-black">איך מאמתים מידע חשוד לפי סוג המדיה?</h2>
+        </div>
+        <button type="button" onclick="toggleVerificationGuide()" class="px-3 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold cursor-pointer">✕ סגור</button>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 text-xs sm:text-sm">
+        <div class="bg-white/10 rounded-2xl p-4 space-y-1.5 border border-white/10">
+          <div class="font-black text-amber-300 text-base">📝 מידע טקסטואלי</div>
+          <p class="text-emerald-50 leading-relaxed">הצלבת מקורות אמינים (גופי חדשות/משטרה), בדיקת תאריך מקורי, חיפוש ציטוטים מדויקים ובדיקה באתרי Fact-checking (כמו "המשרוקית" או Snopes).</p>
+        </div>
+        <div class="bg-white/10 rounded-2xl p-4 space-y-1.5 border border-white/10">
+          <div class="font-black text-amber-300 text-base">🖼️ תמונות (Image)</div>
+          <p class="text-emerald-50 leading-relaxed">חיפוש תמונה הפוך (Google Lens / TinEye), בדיקת חתימת מקור (C2PA) ומטא-דאטה (EXIF), וזיהוי עיוותים ויזואליים אופייניים ל-AI.</p>
+        </div>
+        <div class="bg-white/10 rounded-2xl p-4 space-y-1.5 border border-white/10">
+          <div class="font-black text-amber-300 text-base">🎬 וידאו (Video)</div>
+          <p class="text-emerald-50 leading-relaxed">פירוק לפריימים מרכזיים (InVID) וחיפוש הפוך לאיתור ההקשר המקורי, אימות מיקום גיאוגרפי (Geolocation) ובדיקת סנכרון שפתיים.</p>
+        </div>
+        <div class="bg-white/10 rounded-2xl p-4 space-y-1.5 border border-white/10">
+          <div class="font-black text-amber-300 text-base">🎙️ קול (Audio)</div>
+          <p class="text-emerald-50 leading-relaxed">זיהוי אינטונציה ונשימות לא טבעיות, בדיקת רעשי רקע אחידים מדי או חיתוכים, ואימות ישיר מול מקור רשמי או ערוץ תקשורת חלופי.</p>
+        </div>
+      </div>
+    </section>
 
     <!-- מד התקדמות והצבעות חי (כן מול לא בשאלה 1) -->
     <section class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-xs space-y-4">
@@ -620,9 +521,9 @@
             💡
           </div>
           <div>
-            <h2 class="text-xl sm:text-2xl font-black">ההחלטה והתובנות המרכזיות של הכיתה</h2>
+            <h2 class="text-xl sm:text-2xl font-black">דיון המליאה וההחלטה המרכזית של הכיתה (9 דקות)</h2>
             <p class="text-xs sm:text-sm text-slate-300">
-              סיכום ההשוואה בין 4 הקבוצות: ההחלטה, הראיות והמחיר שכל צד מוכן לקבל
+              השלב המרכזי של הפעילות: השוואת עמדות, דיון בדרכי אימות המידע (טקסט, תמונה, וידאו, קול) וגיבוש מסקנה משותפת
             </p>
           </div>
         </div>
@@ -640,12 +541,13 @@
         <!-- תזכורת למבנה ההצגה בסיום העבודה -->
         <div class="lg:col-span-5 bg-white/10 rounded-2xl p-4 sm:p-5 border border-white/15 space-y-2.5">
           <h3 class="text-sm sm:text-base font-black text-amber-300">
-            🎤 מבנה ההצגה הקצרה של כל קבוצה בסיום העבודה:
+            🎤 מבנה ההצגה הקצרה של כל קבוצה (1.5 דק׳ לקבוצה):
           </h3>
           <ol class="space-y-2 text-sm text-slate-100 list-decimal list-inside">
             <li><strong>ההחלטה של הקבוצה:</strong> כן או לא להטלת מגבלה זמנית עכשיו (ובאילו תנאים).</li>
-            <li><strong>הראיה המרכזית:</strong> על אילו מיצגים (1, 2 או 3) הקבוצה ביססה את עמדתה.</li>
-            <li><strong>המחיר שהיא מוכנה לקבל:</strong> איזה סיכון או פגיעה הקבוצה מוכנה לשאת כדי לממש את החלטתה.</li>
+            <li><strong>הראיה המרכזית:</strong> הנתונים והעובדות מהמקרה שעליהם הקבוצה ביססה את עמדתה.</li>
+            <li><strong>המחיר שהיא מוכנה לקבל:</strong> איזה סיכון או פגיעה הקבוצה מוכנה לשאת.</li>
+            <li><strong>אימות המידע:</strong> איך מאמתים טקסט, תמונה, וידאו וקול במקרה כזה.</li>
           </ol>
         </div>
 
@@ -653,13 +555,13 @@
         <div class="lg:col-span-7 bg-white/5 border border-white/15 rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
           <div>
             <label for="classConclusionTextarea" class="block text-sm font-extrabold text-emerald-300 mb-2">
-              ✍️ רשמו כאן יחד עם הכיתה את ההחלטה והתובנות המרכזיות שעלו מהדיון:
+              ✍️ רשמו כאן יחד עם הכיתה את ההחלטה והתובנות המרכזיות שעלו מדיון המליאה:
             </label>
             <textarea
               id="classConclusionTextarea"
               rows="4"
               oninput="handleSummaryInput(this.value)"
-              placeholder="לדוגמה: רוב הכיתה תמכה במגבלה זמנית ממוקדת... למדנו שסרטונים אמיתיים מחוץ להקשר מקשים על הזיהוי בזמן אמת..."
+              placeholder="לדוגמה: רוב הכיתה תמכה במגבלה זמנית ממוקדת... למדנו שסרטונים אמיתיים מחוץ להקשר דורשים פירוק לפריימים וחיפוש הפוך..."
               class="w-full rounded-xl bg-slate-950/75 border border-white/20 p-3.5 text-base sm:text-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 leading-relaxed"
             ></textarea>
           </div>
@@ -706,63 +608,6 @@
       </div>
     </div>
 
-  </div>
-
-
-  <!-- ======================================================================= -->
-  <!-- חלונית הצצה מהירה במיצגים 1, 2 ו-3 לתלמידים                            -->
-  <!-- ======================================================================= -->
-  <div id="exhibitsQuickModal" class="hidden fixed inset-0 z-50 bg-slate-900/75 backdrop-blur-xs flex items-center justify-center p-4" onclick="if(event.target===this) closeExhibitsModal()">
-    <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-5">
-      <div class="flex items-center justify-between border-b border-slate-200 pb-3 sticky top-0 bg-white z-10">
-        <h3 class="text-xl sm:text-2xl font-black text-slate-950">המיצגים לביסוס התשובות (מיצגים 1, 2 ו-3)</h3>
-        <button type="button" onclick="closeExhibitsModal()" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-black flex items-center justify-center cursor-pointer">✕</button>
-      </div>
-
-      <div class="space-y-4 text-sm sm:text-base text-slate-800 leading-relaxed">
-        <!-- מיצג 1 -->
-        <div class="rounded-2xl bg-slate-50 border-2 border-slate-200 p-4 sm:p-5 space-y-1.5">
-          <div class="flex items-center gap-2">
-            <span class="px-2.5 py-0.5 rounded-lg bg-slate-900 text-white text-xs font-black">מיצג 1</span>
-            <h4 class="font-black text-slate-950 text-base sm:text-lg">המקרה: ריינפאדה, מחוז דהולה | 1 ביולי 2018</h4>
-          </div>
-          <p>
-            חמישה גברים נהרגו לאחר שהמון חשד בהם בטעות בחטיפת ילדים. לפי הדיווח על חקירת המשטרה, השמועה התפשטה ב־WhatsApp וגם מפה לאוזן. בגל השמועות הרחב בהודו הופצו גם סרטונים אמיתיים שהוצאו מהקשרם והוצגו כ״הוכחה״ לפעילות של חוטפי ילדים.
-          </p>
-        </div>
-
-        <!-- מיצג 2 -->
-        <div class="rounded-2xl bg-slate-50 border-2 border-slate-200 p-4 sm:p-5 space-y-1.5">
-          <div class="flex items-center gap-2">
-            <span class="px-2.5 py-0.5 rounded-lg bg-slate-900 text-white text-xs font-black">מיצג 2</span>
-            <h4 class="font-black text-slate-950 text-base sm:text-lg">היקף התופעה (תחקיר BBC)</h4>
-          </div>
-          <p>
-            תחקיר BBC זיהה לפחות <strong>31 הרוגים ב־23 אירועי אלימות בהודו במשך כשנתיים</strong>, על רקע שמועות כוזבות שהופצו ברשתות ובאפליקציות מסרים. זהו נתון מצטבר, ולא מספר ההרוגים באירוע בדהולה.
-          </p>
-        </div>
-
-        <!-- מיצג 3 -->
-        <div class="rounded-2xl bg-[#dce4ee] border-2 border-slate-300 p-4 sm:p-5 space-y-2">
-          <div class="flex items-center gap-2">
-            <span class="px-2.5 py-0.5 rounded-lg bg-indigo-700 text-white text-xs font-black">מיצג 3</span>
-            <h4 class="font-black text-slate-950 text-base sm:text-lg">התרחיש וההחלטה המשותפת</h4>
-          </div>
-          <p>
-            באפליקציית מסרים מוצפנת מתפשטת הודעת אזהרה על חוטפי ילדים. מתקבלים דיווחים שהיא כוזבת ועלולה לעורר אלימות, אך אין עדיין אימות מספק. משתמשים אחרים טוענים שזו התרעה חיונית. אתם ארבעה צוותים המייעצים להנהלת האפליקציה, כל אחד מנקודת מבט אחרת.
-          </p>
-          <p class="text-xs sm:text-sm font-extrabold text-slate-900 bg-white/80 rounded-xl p-2.5">
-            בשתי החלופות קיימים סימון הודעות מועברות, דיווח משתמשים ובדיקת דיווחים.
-          </p>
-        </div>
-      </div>
-
-      <div class="pt-1 flex justify-end">
-        <button type="button" onclick="closeExhibitsModal()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-extrabold cursor-pointer">
-          חזרה למילוי התשובות
-        </button>
-      </div>
-    </div>
   </div>
 
 
@@ -864,9 +709,13 @@
         demo: {
           members: 'נועה, איתי וליאם',
           vote: 'yes',
-          a1: 'כן — אנו ממליצים להפעיל מיד מגבלה זמנית על העברת הודעות המונית (העברה לנמען אחד בלבד) למשך 4 שעות. כפי שעולה ממיצג 1 (ריינפאדה, מחוז דהולה) וממיצג 2 (31 הרוגים ב-23 אירועי אלימות), שמועות על חטיפת ילדים מתפשטות במהירות ועלולות להוביל לאלימות קטלנית עוד לפני שהאימות מסתיים.',
-          a2: 'הסיכון המרכזי בהחלטה שלנו הוא עיכוב זמני בהפצת התרעה שעשויה להתברר כאמיתית (מיצג 3). אנו מעדיפים לקבל סיכון זה על פני הסיכון שבהמתנה, משום שאלימות פיזית נגד חפים מפשע היא פגיעה מיידית ובלתי הפיכה, בעוד שמגבלה זמנית היא הפיכה וניתנת להסרה מיד עם סיום הבדיקה.',
-          a3: 'נשיב לנציגי המשתמשים שאיננו חוסמים שליחת הודעות בקבוצות קיימות אלא רק מאטים הפצה ויראלית בלתי מבוקרת. כדי לצמצם פגיעה במידע חיוני, נציע להשאיר פתוחה שליחה בקבוצות שכונתיות מקומיות ולהוסיף כפתור חיוג מהיר למוקדי החירום והמשטרה.'
+          a1: 'כן — אנו ממליצים להפעיל מיד מגבלה זמנית על העברת הודעות המונית (העברה לנמען אחד בלבד) למשך 4 שעות. כפי שעולה ממקרה דהולה ומתחקיר ה-BBC (31 הרוגים ב-23 אירועי אלימות), שמועות על חטיפת ילדים מתפשטות במהירות ועלולות להוביל לאלימות קטלנית עוד לפני שהאימות מסתיים.',
+          a2: 'הסיכון המרכזי בהחלטה שלנו הוא עיכוב זמני בהפצת התרעה שעשויה להתברר כאמיתית. אנו מעדיפים לקבל סיכון זה על פני הסיכון שבהמתנה, משום שאלימות פיזית נגד חפים מפשע היא פגיעה מיידית ובלתי הפיכה, בעוד שמגבלה זמנית היא הפיכה וניתנת להסרה מיד עם סיום הבדיקה.',
+          a3: 'נשיב לנציגי המשתמשים שאיננו חוסמים שליחת הודעות בקבוצות קיימות אלא רק מאטים הפצה ויראלית בלתי מבוקרת. כדי לצמצם פגיעה במידע חיוני, נציע להשאיר פתוחה שליחה בקבוצות שכונתיות מקומיות ולהוסיף כפתור חיוג מהיר למוקדי החירום והמשטרה.',
+          a4_text: 'בדיקה מול הודעות דוברות רשמיות של המשטרה ואתרי בדיקת עובדות מוכרים.',
+          a4_image: 'חיפוש תמונה הפוך (Google Lens / TinEye) כדי לבדוק אם התמונה צולמה בעבר או במקום אחר.',
+          a4_video: 'פירוק הסרטון לפריימים (InVID) וחיפוש הפוך לאיתור המקור האמיתי והתאריך.',
+          a4_audio: 'אימות מול גורם רשמי והאזנה לאינטונציה או חיתוכים לא טבעיים בהקלטה.'
         }
       },
       {
@@ -891,9 +740,13 @@
         demo: {
           members: 'מאיה, דניאל ושירה',
           vote: 'no',
-          a1: 'לא — אנו מתנגדים להטלת מגבלה גורפת על העברת הודעות לכל המשתמשים כבר עכשיו. לפי מיצג 3, קיימים משתמשים הטוענים שזו התרעה חיונית, ובשתי החלופות כבר קיימים סימון הודעות מועברות, דיווח משתמשים ובדיקת דיווחים.',
-          a2: 'אי-הטלת מגבלה גורפת מאפשרת למשתמשים בשעת חירום לשתף מידע דחוף בזמן אמת. דוגמה למידע מועיל: הודעה של הורה או צוות הצלה על ילד שנעדר או זקוק לסיוע מיידי באזור מסוים. דוגמה למידע מזיק באותה מערכת: סרטון אמיתי שהוצא מהקשרו ומופץ כ״הוכחה״ נגד חפים מפשע (כפי שמתואר במיצג 1).',
-          a3: 'נשיב לצוות הבטיחות שאנו מכירים בסכנה שתועדה במיצגים 1 ו-2, אך חסימה גורפת פוגעת בכולם. במקום זאת נציע להצמיד להודעות שסומנו כמועברות פעמים רבות באנר אזהרה בולט הקורא לא לפעול באלימות ולפנות לרשויות, ולתעדף לבדיקה דחופה הודעות שקיבלו ריבוי דיווחים.'
+          a1: 'לא — אנו מתנגדים להטלת מגבלה גורפת על העברת הודעות לכל המשתמשים כבר עכשיו. קיימים משתמשים הטוענים שזו התרעה חיונית, ובשתי החלופות כבר קיימים סימון הודעות מועברות, דיווח משתמשים ובדיקת דיווחים.',
+          a2: 'אי-הטלת מגבלה גורפת מאפשרת למשתמשים בשעת חירום לשתף מידע דחוף בזמן אמת. דוגמה למידע מועיל: הודעה של הורה או צוות הצלה על ילד שנעדר או זקוק לסיוע מיידי באזור מסוים. דוגמה למידע מזיק באותה מערכת: סרטון אמיתי שהוצא מהקשרו ומופץ כ״הוכחה״ נגד חפים מפשע.',
+          a3: 'נשיב לצוות הבטיחות שאנו מכירים בסכנה שתועדה במקרה בהודו, אך חסימה גורפת פוגעת בכולם. במקום זאת נציע להצמיד להודעות שסומנו כמועברות פעמים רבות באנר אזהרה בולט הקורא לא לפעול באלימות ולפנות לרשויות, ולתעדף לבדיקה דחופה הודעות שקיבלו ריבוי דיווחים.',
+          a4_text: 'חיפוש מילות מפתח בגוגל ובחדשות מקומיות כדי לבדוק אם יש דיווח מאומת על האירוע.',
+          a4_image: 'שימוש בחיפוש הפוך בנייד (Google Lens) ובחינת פרטים ברקע כמו שלטים ומספרי רישוי.',
+          a4_video: 'בדיקת שלטים, שפה ומזג אוויר בסרטון כדי לוודא התאמה לאזור ולזמן המדווח.',
+          a4_audio: 'הצלבת הקול מול הקלטות קודמות של הדובר ובדיקה אם יש עיוותים או רעש רקע מלאכותי.'
         }
       },
       {
@@ -903,7 +756,7 @@
         roleName: 'צוות בדיקת עובדות והערכת ראיות',
         focus: 'להבחין בין מידע מאומת, טענה לא מבוססת ומידע כוזב.',
         mission: 'להעריך מה ידוע ומה חסר, ולהמליץ אם הראיות מספיקות להתערבות עכשיו.',
-        q2: 'מה המיצגים מאפשרים לדעת, ומה עדיין חסר כדי להכריע לגבי ההודעה החדשה בתרחיש? הבחינו בין עובדה, דיווח והנחה.',
+        q2: 'מה המקרה והנתונים מאפשרים לדעת, ומה עדיין חסר כדי להכריע לגבי ההודעה החדשה בתרחיש? הבחינו בין עובדה, דיווח והנחה.',
         q3: 'איזה מידע נוסף עשוי לשנות את החלטתכם? הסבירו מדוע נכון לפעול או להמתין בזמן שמנסים להשיג אותו.',
         icon: '🔍',
         theme: {
@@ -918,9 +771,13 @@
         demo: {
           members: 'רוני, עומר ויעל',
           vote: 'yes',
-          a1: 'כן — אנו תומכים בהטלת מגבלה זמנית מוגבלת בזמן (למשל שעתיים) של האטת העברות, לא כקביעה שההודעה שקרית אלא כצעד זהירות מול אי-ודאות גבוהה. מיצגים 1 ו-2 מוכיחים שדפוס התפשטות כזה של שמועות על חוטפי ילדים כבר הוביל בעבר לאסונות כבדים.',
-          a2: 'מהמיצגים ניתן לדעת כעובדה (מיצגים 1 ו-2) שבעבר שמועות על חטיפת ילדים וסרטונים שהוצאו מהקשרם גרמו לפחות ל-31 הרוגים. במיצג 3: העובדה היא שההודעה מתפשטת ומתקבלים דיווחים סותרים; הדיווח הוא טענות משתמשים שהיא כוזבת מול טענות שזו התרעה חיונית; ההנחה היא שההודעה החדשה אכן כוזבת או תוביל לאלימות. חסר לנו מקור ראשון מאומת ואישור משטרתי.',
-          a3: 'אישור רשמי של המשטרה המקומית או הצלבת הסרטון/התמונה המצורפים להודעה (בדיקת תאריך ומיקום מקוריים) ישנו את החלטתנו. נכון להפעיל האטה זמנית בזמן הבדיקה, כי אימות עובדתי אמין דורש זמן, ובינתיים הפצה ויראלית עלולה ליצור נזק בלתי הפיך.'
+          a1: 'כן — אנו תומכים בהטלת מגבלה זמנית מוגבלת בזמן (למשל שעתיים) של האטת העברות, לא כקביעה שההודעה שקרית אלא כצעד זהירות מול אי-ודאות גבוהה. הנתונים מראים שדפוס התפשטות כזה של שמועות על חוטפי ילדים כבר הוביל בעבר לאסונות כבדים.',
+          a2: 'מהנתונים ידוע כעובדה שבעבר שמועות על חטיפת ילדים וסרטונים שהוצאו מהקשרם גרמו לפחות ל-31 הרוגים. בתרחיש הנוכחי: העובדה היא שההודעה מתפשטת ומתקבלים דיווחים סותרים; הדיווח הוא טענות משתמשים שהיא כוזבת מול טענות שזו התרעה חיונית; ההנחה היא שההודעה החדשה אכן כוזבת או תוביל לאלימות. חסר לנו מקור ראשון מאומת ואישור משטרתי.',
+          a3: 'אישור רשמי של המשטרה המקומית או הצלבת הסרטון/התמונה המצורפים להודעה (בדיקת תאריך ומיקום מקוריים) ישנו את החלטתנו. נכון להפעיל האטה זמנית בזמן הבדיקה, כי אימות עובדתי אמין דורש זמן, ובינתיים הפצה ויראלית עלולה ליצור נזק בלתי הפיך.',
+          a4_text: 'איתור המקור הראשוני של הטקסט, בדיקת עקביות הפרטים והצלבה באתרי Fact-checking.',
+          a4_image: 'בדיקת מטא-דאטה (EXIF), חיפוש תמונה הפוך (TinEye) וזיהוי חתימות C2PA של תוכן AI.',
+          a4_video: 'חילוץ תמונות מפתח (Keyframes) בכלי InVID, אימות מיקום גיאוגרפי (Geolocation) וסנכרון שפתיים.',
+          a4_audio: 'ניתוח ספקטרוגרמה לזיהוי חיתוכי עריכה או סינתזת קול (Voice Cloning) ואימות מול מקור שני.'
         }
       },
       {
@@ -945,9 +802,13 @@
         demo: {
           members: 'אלון, תמר וגיא',
           vote: 'yes',
-          a1: 'כן — אנו ממליצים להפעיל מגבלה טכנית זמנית וממוקדת על הודעות המועברות בשרשרת (מיצג 3), מבלי לפרוץ את ההצפנה. כפי שמראה מיצג 1, אפליקציות מסרים משמשות להאצת שמועות, ולכן התערבות במנגנון ההפצה היא הדרך המעשית לצמצם סיכון.',
+          a1: 'כן — אנו ממליצים להפעיל מגבלה טכנית זמנית וממוקדת על הודעות המועברות בשרשרת, מבלי לפרוץ את ההצפנה. אפליקציות מסרים משמשות להאצת שמועות, ולכן התערבות במנגנון ההפצה היא הדרך המעשית לצמצם סיכון.',
           a2: 'המנגנון: "הגבלת שרשרת העברות" (Forwarding Limit) — הודעה שסומנה כמועברת 5 פעמים ומעלה תוגבל אוטומטית להעברה לנמען אחד בלבד בכל פעם. המידע הדרוש: רק מונה העברות מוצפן (מטא-דאטה מקומי במכשיר) ומספר דיווחי משתמשים, ללא קריאת תוכן ההודעה או זהות השולחים, כך שהפרטיות נשמרת במלואה.',
-          a3: 'מדד לתועלת: ירידה של 50% בקצב ההעברות המהירות וירידה בדיווחים על הסתה תוך 3 שעות. מדד לפגיעה במידע חיוני: שיעור התלונות של משתמשים על עיכוב בהודעות חירום או נטישת הודעות דחופות. תנאי להפסקת ההתערבות: חלוף 6 שעות ללא עלייה בדיווחים, או קבלת עדכון מאומת מבדיקת הדיווחים.'
+          a3: 'מדד לתועלת: ירידה של 50% בקצב ההעברות המהירות וירידה בדיווחים על הסתה תוך 3 שעות. מדד לפגיעה במידע חיוני: שיעור התלונות של משתמשים על עיכוב בהודעות חירום או נטישת הודעות דחופות. תנאי להפסקת ההתערבות: חלוף 6 שעות ללא עלייה בדיווחים, או קבלת עדכון מאומת מבדיקת הדיווחים.',
+          a4_text: 'השוואת גיבוב (Hash) של הודעות דווחות מול מאגר בדיקות עובדות והצלבת מקורות רשמיים.',
+          a4_image: 'בדיקת חתימה קריפטוגרפית (תקן C2PA / Content Credentials), סימני מים (SynthID) וחיפוש הפוך.',
+          a4_video: 'חילוץ Keyframes (InVID), בדיקת עקביות תאורה/תנועה וסנכרון שפתיים (Lip-sync).',
+          a4_audio: 'בדיקת סימני מים דיגיטליים לקול, ניתוח תדרים לאיתור סינתזת AI ואימות דו-ערוצי.'
         }
       }
     ];
@@ -966,18 +827,14 @@
     let unsubRoom = null;
     let unsubGroups = null;
 
-    let groupsState = {}; // { 1: { roomId, groupId, members, vote, a1, a2, a3, submitted, submittedAt }, ... }
+    let groupsState = {};
     let classSummaryText = '';
 
-    // ניהול לשוניות ראשיות: 'exhibits' | 'student' | 'presenter'
+    // ניהול לשוניות ראשיות: 'student' | 'presenter'
     const initialTabParam = urlParams.get('tab');
-    let activeMainTab = ['exhibits', 'student', 'presenter'].includes(initialTabParam)
+    let activeMainTab = ['student', 'presenter'].includes(initialTabParam)
       ? initialTabParam
-      : (window.innerWidth < 768 ? 'student' : 'exhibits');
-
-    // ניהול לשונית המיצגים
-    let exhibitsLayout = 'all'; // 'all' | 'slides'
-    let currentExhibitSlide = 1;
+      : 'student';
 
     // ניהול מסך תלמידים
     let selectedStudentGroupId = null;
@@ -985,7 +842,7 @@
     let isFormDirty = false;
 
     // ניהול מסך מציגות ו-Spotlight
-    let boardFontScaleIndex = 0; // 0: רגיל, 1: גדול, 2: ענק
+    let boardFontScaleIndex = 0;
     let spotlightGroupId = null;
 
     // טיימר מובנה של 10 דקות (10:00 = 600 שניות)
@@ -1041,7 +898,6 @@
         auth = getAuth(app);
         db = getFirestore(app);
 
-        // אימות חובה לפני כל פנייה ל-Firestore
         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
           const cred = await signInWithCustomToken(auth, __initial_auth_token);
           currentUser = cred.user;
@@ -1082,7 +938,6 @@
       if (unsubRoom) unsubRoom();
       if (unsubGroups) unsubGroups();
 
-      // נתיב ציבורי תקני: /artifacts/{appId}/public/data/classroom_rooms_v3/{roomId}
       const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'classroom_rooms_v3', roomId);
       unsubRoom = onSnapshot(
         roomRef,
@@ -1100,7 +955,6 @@
         }
       );
 
-      // נתיב ציבורי תקני: /artifacts/{appId}/public/data/classroom_groups_v3
       const groupsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'classroom_groups_v3');
       unsubGroups = onSnapshot(
         groupsColRef,
@@ -1114,7 +968,6 @@
           });
           groupsState = nextState;
 
-          // אם המציגות ניקו תשובות, נאפס את באנר ההצלחה אצל התלמיד
           if (selectedStudentGroupId) {
             const sub = groupsState[selectedStudentGroupId];
             if (!sub || !sub.submitted) {
@@ -1149,7 +1002,7 @@
 
     /**
      * =========================================================================
-     * ניווט ראשי בין 3 הלשוניות
+     * ניווט ראשי בין 2 הלשוניות
      * =========================================================================
      */
     window.setMainTab = function(tabName) {
@@ -1159,7 +1012,7 @@
     };
 
     function renderMainNavigation() {
-      const tabs = ['exhibits', 'student', 'presenter'];
+      const tabs = ['student', 'presenter'];
       tabs.forEach((t) => {
         const btn = document.getElementById(`mainTab-${t}`);
         const view = document.getElementById(`view-${t}`);
@@ -1178,9 +1031,7 @@
 
     function renderApp() {
       renderMainNavigation();
-      if (activeMainTab === 'exhibits') {
-        renderExhibitsTab();
-      } else if (activeMainTab === 'student') {
+      if (activeMainTab === 'student') {
         renderStudentTab();
       } else if (activeMainTab === 'presenter') {
         renderPresenterTab();
@@ -1193,82 +1044,7 @@
 
     /**
      * =========================================================================
-     * לשונית 1: המיצגים והרקע
-     * =========================================================================
-     */
-    window.setExhibitsLayout = function(mode) {
-      exhibitsLayout = mode;
-      renderExhibitsTab();
-    };
-
-    window.setExhibitSlide = function(slideNum) {
-      currentExhibitSlide = slideNum;
-      renderExhibitsTab();
-    };
-
-    window.stepExhibitSlide = function(delta) {
-      let next = currentExhibitSlide + delta;
-      if (next > 3) next = 1;
-      if (next < 1) next = 3;
-      setExhibitSlide(next);
-    };
-
-    function renderExhibitsTab() {
-      const allBtn = document.getElementById('exhibitsLayoutAllBtn');
-      const slidesBtn = document.getElementById('exhibitsLayoutSlidesBtn');
-      const slideControls = document.getElementById('exhibitsSlideControls');
-
-      const s1 = document.getElementById('exhibitSection-1');
-      const s2 = document.getElementById('exhibitSection-2');
-      const s3 = document.getElementById('exhibitSection-3');
-
-      if (exhibitsLayout === 'all') {
-        allBtn.className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-extrabold bg-indigo-600 text-white shadow-2xs cursor-pointer';
-        slidesBtn.className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold text-slate-700 hover:bg-white cursor-pointer';
-        slideControls.classList.add('hidden');
-        slideControls.classList.remove('flex');
-        s1.classList.remove('hidden');
-        s2.classList.remove('hidden');
-        s3.classList.remove('hidden');
-      } else {
-        slidesBtn.className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-extrabold bg-indigo-600 text-white shadow-2xs cursor-pointer';
-        allBtn.className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold text-slate-700 hover:bg-white cursor-pointer';
-        slideControls.classList.remove('hidden');
-        slideControls.classList.add('flex');
-
-        [1, 2, 3].forEach((n) => {
-          const btn = document.getElementById(`exSlideBtn-${n}`);
-          if (btn) {
-            btn.className = n === currentExhibitSlide
-              ? 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-slate-900 text-white cursor-pointer'
-              : 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer';
-          }
-        });
-
-        s1.classList.toggle('hidden', currentExhibitSlide !== 1);
-        s2.classList.toggle('hidden', currentExhibitSlide !== 2);
-        s3.classList.toggle('hidden', currentExhibitSlide !== 3);
-      }
-
-      // רינדור סקירת 4 הקבוצות בחלק ג׳
-      const overviewGrid = document.getElementById('exhibitsGroupsOverviewGrid');
-      if (overviewGrid) {
-        overviewGrid.innerHTML = GROUPS_CONFIG.map((g) => `
-          <div class="rounded-2xl border-2 ${g.theme.border} ${g.theme.headerBg} p-5 space-y-2">
-            <div class="flex items-center gap-2">
-              <span class="px-3 py-1 rounded-xl text-xs font-black ${g.theme.badge}">${g.icon} ${g.shortLabel}</span>
-              <h3 class="text-lg sm:text-xl font-black ${g.theme.titleText}">${g.roleName}</h3>
-            </div>
-            <p class="text-sm sm:text-base text-slate-900"><strong>המוקד:</strong> ${g.focus}</p>
-            <p class="text-sm sm:text-base text-slate-700"><strong>המשימה:</strong> ${g.mission}</p>
-          </div>
-        `).join('');
-      }
-    }
-
-    /**
-     * =========================================================================
-     * לשונית 2: מסך תלמידים (מענה קבוצתי)
+     * לשונית 1: מסך תלמידים (מענה קבוצתי)
      * =========================================================================
      */
     function renderStudentTab() {
@@ -1352,7 +1128,6 @@
       const g = GROUPS_CONFIG.find((item) => item.id === selectedStudentGroupId);
       if (!g) return;
 
-      // כרטיס התפקיד בראש הטופס
       const bannerCard = document.getElementById('studentGroupBannerCard');
       bannerCard.className = `rounded-3xl border-2 ${g.theme.borderStrong} ${g.theme.headerBg} p-5 sm:p-6 shadow-sm space-y-2.5`;
       bannerCard.innerHTML = `
@@ -1369,14 +1144,11 @@
         </div>
       `;
 
-      // עדכון צבע כפתור השליחה
       const submitBtn = document.getElementById('submitGroupBtn');
       submitBtn.className = `w-full py-4 px-6 rounded-2xl font-black text-base sm:text-lg text-white ${g.theme.btn} active:scale-[0.99] shadow-lg transition flex items-center justify-center gap-2.5 cursor-pointer`;
 
-      // עדכון כפתורי כן / לא
       renderYesNoButtons();
 
-      // רינדור שאלות 2 ו-3 הייעודיות לתפקיד
       const existing = groupsState[g.id];
       const curA2 = document.getElementById('answer2Input')?.value;
       const curA3 = document.getElementById('answer3Input')?.value;
@@ -1399,7 +1171,7 @@
             id="answer2Input"
             rows="4"
             oninput="markFormDirty()"
-            placeholder="כתבו כאן את תשובת הקבוצה (זכרו לציין מספרי מיצגים)..."
+            placeholder="כתבו כאן את תשובת הקבוצה..."
             class="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed"
           >${escapeHtml(valA2)}</textarea>
         </div>
@@ -1419,26 +1191,37 @@
         </div>
       `;
 
-      // מילוי נתונים קיימים אם לא באמצע הקלדה
       if (!isFormDirty) {
         const membersEl = document.getElementById('groupMembersInput');
         const ans1El = document.getElementById('answer1Input');
+        const ans4TextEl = document.getElementById('answer4TextInput');
+        const ans4ImageEl = document.getElementById('answer4ImageInput');
+        const ans4VideoEl = document.getElementById('answer4VideoInput');
+        const ans4AudioEl = document.getElementById('answer4AudioInput');
         const successBanner = document.getElementById('studentSuccessBanner');
         const submitBtnText = document.getElementById('submitGroupBtnText');
 
         if (existing && existing.submitted) {
           if (membersEl) membersEl.value = existing.members || '';
           if (ans1El) ans1El.value = existing.a1 || '';
+          if (ans4TextEl) ans4TextEl.value = existing.a4_text || '';
+          if (ans4ImageEl) ans4ImageEl.value = existing.a4_image || '';
+          if (ans4VideoEl) ans4VideoEl.value = existing.a4_video || '';
+          if (ans4AudioEl) ans4AudioEl.value = existing.a4_audio || '';
           selectedDecisionVote = existing.vote || '';
           renderYesNoButtons();
           successBanner.classList.remove('hidden');
           document.getElementById('studentSuccessTimeText').textContent = existing.submittedAt
             ? `התקבל בלוח הכיתה בשעה ${existing.submittedAt} — ניתן לערוך ולשלוח עדכון בכל רגע.`
-            : 'ניתן לערוך ולשלוח עדכון בכל רגע.';
+            : 'ניתן לעדכן ולשלוח עדכון בכל רגע.';
           submitBtnText.textContent = 'עדכון ושליחה מחדש ללוח הכיתה';
         } else {
           if (membersEl) membersEl.value = '';
           if (ans1El) ans1El.value = '';
+          if (ans4TextEl) ans4TextEl.value = '';
+          if (ans4ImageEl) ans4ImageEl.value = '';
+          if (ans4VideoEl) ans4VideoEl.value = '';
+          if (ans4AudioEl) ans4AudioEl.value = '';
           successBanner.classList.add('hidden');
           submitBtnText.textContent = 'שליחת תשובת הקבוצה ללוח הכיתה';
         }
@@ -1488,6 +1271,10 @@
       const a1 = (document.getElementById('answer1Input')?.value || '').trim();
       const a2 = (document.getElementById('answer2Input')?.value || '').trim();
       const a3 = (document.getElementById('answer3Input')?.value || '').trim();
+      const a4_text = (document.getElementById('answer4TextInput')?.value || '').trim();
+      const a4_image = (document.getElementById('answer4ImageInput')?.value || '').trim();
+      const a4_video = (document.getElementById('answer4VideoInput')?.value || '').trim();
+      const a4_audio = (document.getElementById('answer4AudioInput')?.value || '').trim();
 
       if (!selectedDecisionVote) {
         showToast('אנא בחרו "כן" או "לא" בשאלה 1 לפני השליחה');
@@ -1509,6 +1296,10 @@
         a1,
         a2,
         a3,
+        a4_text,
+        a4_image,
+        a4_video,
+        a4_audio,
         submitted: true,
         submittedAt: timeStr,
         updatedAtMs: Date.now()
@@ -1543,7 +1334,7 @@
 
     /**
      * =========================================================================
-     * לשונית 3: מסך מציגות והקרנה לכיתה
+     * לשונית 2: מסך מציגות והקרנה לכיתה
      * =========================================================================
      */
     const BOARD_FONT_SCALES = [
@@ -1551,6 +1342,11 @@
       { label: 'גדול', q: 'text-sm sm:text-base', a: 'text-base sm:text-lg', spotQ: 'text-lg sm:text-xl', spotA: 'text-xl sm:text-2xl' },
       { label: 'ענק', q: 'text-base sm:text-lg', a: 'text-lg sm:text-xl', spotQ: 'text-xl sm:text-2xl', spotA: 'text-2xl sm:text-3xl' }
     ];
+
+    window.toggleVerificationGuide = function() {
+      const panel = document.getElementById('verificationGuidePanel');
+      if (panel) panel.classList.toggle('hidden');
+    };
 
     window.changeBoardFontScale = function(delta) {
       boardFontScaleIndex = Math.max(0, Math.min(BOARD_FONT_SCALES.length - 1, boardFontScaleIndex + delta));
@@ -1586,7 +1382,6 @@
 
       const tallyGrid = document.getElementById('yesNoTallyGrid');
       tallyGrid.innerHTML = `
-        <!-- עמודת כן -->
         <div class="rounded-2xl border-2 border-emerald-200 bg-emerald-50/60 p-4 space-y-2.5">
           <div class="flex items-center justify-between">
             <span class="text-base sm:text-lg font-black text-emerald-950">✅ כן — להטיל מגבלה זמנית עכשיו</span>
@@ -1605,7 +1400,6 @@
           </div>
         </div>
 
-        <!-- עמודת לא -->
         <div class="rounded-2xl border-2 border-rose-200 bg-rose-50/60 p-4 space-y-2.5">
           <div class="flex items-center justify-between">
             <span class="text-base sm:text-lg font-black text-rose-950">❌ לא — לא להטיל מגבלה כללית עכשיו</span>
@@ -1636,6 +1430,8 @@
               ? `<span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl bg-emerald-600 text-white text-xs sm:text-sm font-black">✓ החלטה: כן (מגבלה זמנית)</span>`
               : `<span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl bg-rose-600 text-white text-xs sm:text-sm font-black">✕ החלטה: לא (ללא מגבלה כללית)</span>`)
           : `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white/80 border border-slate-200 text-xs text-slate-500 font-bold">החלטה: טרם נשלחה</span>`;
+
+        const hasQ4 = isSubmitted && (sub.a4_text || sub.a4_image || sub.a4_video || sub.a4_audio);
 
         return `
           <article class="rounded-3xl border-2 ${isSubmitted ? g.theme.borderStrong : 'border-slate-200'} bg-white shadow-sm overflow-hidden flex flex-col justify-between transition-all">
@@ -1669,9 +1465,9 @@
                 <div class="pt-0.5">${voteBadgeHtml}</div>
               </div>
 
-              <!-- תשובות הקבוצה לשאלות 1, 2 ו-3 -->
+              <!-- תשובות הקבוצה לשאלות 1, 2, 3 ו-4 -->
               <div class="p-5 space-y-4">
-                <!-- שאלה 1: נימוק ההחלטה המשותפת -->
+                <!-- שאלה 1 -->
                 <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200 space-y-1">
                   <div class="text-xs font-black text-slate-500">שאלה 1 (החלטה משותפת ונימוק):</div>
                   ${isSubmitted && sub.a1
@@ -1695,6 +1491,20 @@
                   ${isSubmitted && sub.a3
                     ? `<p class="${scale.a} font-medium text-slate-900 leading-relaxed whitespace-pre-line">${escapeHtml(sub.a3)}</p>`
                     : `<p class="text-sm italic text-slate-400">ממתינים למענה...</p>`
+                  }
+                </div>
+
+                <!-- שאלה 4: אימות מידע לפי סוג מדיה -->
+                <div class="bg-indigo-50/70 rounded-2xl p-3.5 border border-indigo-200 space-y-2">
+                  <div class="text-xs font-black text-indigo-900">שאלה 4 — שיטות לאימות מידע לפי פורמט:</div>
+                  ${hasQ4
+                    ? `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-900">
+                        <div class="bg-white/90 rounded-xl p-2 border border-indigo-100"><strong>📝 טקסט:</strong> ${escapeHtml(sub.a4_text || '—')}</div>
+                        <div class="bg-white/90 rounded-xl p-2 border border-indigo-100"><strong>🖼️ תמונה:</strong> ${escapeHtml(sub.a4_image || '—')}</div>
+                        <div class="bg-white/90 rounded-xl p-2 border border-indigo-100"><strong>🎬 וידאו:</strong> ${escapeHtml(sub.a4_video || '—')}</div>
+                        <div class="bg-white/90 rounded-xl p-2 border border-indigo-100"><strong>🎙️ קול:</strong> ${escapeHtml(sub.a4_audio || '—')}</div>
+                      </div>`
+                    : `<p class="text-xs italic text-slate-400">ממתינים לשיטות אימות (טקסט, תמונה, וידאו, קול)...</p>`
                   }
                 </div>
               </div>
@@ -1753,7 +1563,7 @@
 
     /**
      * =========================================================================
-     * Spotlight Mode: שקופית גדולה וברורה + תזכורת ל-3 סעיפי ההצגה בסיום
+     * Spotlight Mode: שקופית גדולה וברורה + תזכורת לסעיפי ההצגה בסיום
      * =========================================================================
      */
     window.openSpotlightMode = function(groupId) {
@@ -1806,6 +1616,8 @@
               </div>`)
         : `<div class="p-4 rounded-2xl bg-slate-100 border border-slate-200 text-slate-500 font-bold">הקבוצה טרם שלחה את החלטתה</div>`;
 
+      const hasQ4 = isSubmitted && (sub.a4_text || sub.a4_image || sub.a4_video || sub.a4_audio);
+
       const container = document.getElementById('spotlightSlideContainer');
       container.innerHTML = `
         <div class="${g.theme.headerBg} px-6 sm:px-10 py-6 border-b-2 ${g.theme.border} space-y-2.5">
@@ -1846,23 +1658,41 @@
             }
           </div>
 
-          <!-- תזכורת לשלושת סעיפי ההצגה בסיום העבודה -->
+          <!-- תשובה לשאלה 4: אימות מידע לפי פורמט -->
+          <div class="rounded-2xl bg-indigo-50 border-2 border-indigo-200 p-5 space-y-3">
+            <div class="text-sm sm:text-base font-black text-indigo-950">שאלה 4 — שיטות אימות מידע לפי פורמט:</div>
+            ${hasQ4
+              ? `<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm sm:text-base text-slate-900">
+                  <div class="bg-white rounded-xl p-3 border border-indigo-100"><strong>📝 טקסט:</strong> ${escapeHtml(sub.a4_text || '—')}</div>
+                  <div class="bg-white rounded-xl p-3 border border-indigo-100"><strong>🖼️ תמונה:</strong> ${escapeHtml(sub.a4_image || '—')}</div>
+                  <div class="bg-white rounded-xl p-3 border border-indigo-100"><strong>🎬 וידאו:</strong> ${escapeHtml(sub.a4_video || '—')}</div>
+                  <div class="bg-white rounded-xl p-3 border border-indigo-100"><strong>🎙️ קול:</strong> ${escapeHtml(sub.a4_audio || '—')}</div>
+                </div>`
+              : `<p class="text-sm italic text-slate-400">ממתינים לתשובת הקבוצה...</p>`
+            }
+          </div>
+
+          <!-- תזכורת לארבעת סעיפי ההצגה בסיום העבודה -->
           <div class="rounded-2xl bg-slate-900 text-white p-5 space-y-2 border border-slate-800">
             <div class="text-xs sm:text-sm font-black text-amber-300">
-              🎤 דגשים להצגה הקצרה של הקבוצה לכיתה:
+              🎤 דגשים להצגה הקצרה של הקבוצה לכיתה (1.5 דקות):
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs sm:text-sm">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs sm:text-sm">
               <div class="bg-white/10 rounded-xl p-3">
                 <strong class="text-amber-300 block mb-0.5">1. ההחלטה של הקבוצה</strong>
                 <span>כן או לא להטלת מגבלה זמנית עכשיו (ובאילו תנאים).</span>
               </div>
               <div class="bg-white/10 rounded-xl p-3">
                 <strong class="text-amber-300 block mb-0.5">2. הראיה המרכזית</strong>
-                <span>המיצגים (1, 2 או 3) שעליהם התבססה העמדה.</span>
+                <span>הנתונים והעובדות שעליהם התבססה העמדה.</span>
               </div>
               <div class="bg-white/10 rounded-xl p-3">
                 <strong class="text-amber-300 block mb-0.5">3. המחיר שמוכנים לקבל</strong>
                 <span>הסיכון או הפגיעה שהקבוצה מוכנה לשאת.</span>
+              </div>
+              <div class="bg-white/10 rounded-xl p-3">
+                <strong class="text-amber-300 block mb-0.5">4. אימות המידע</strong>
+                <span>איך מאמתים טקסט, תמונה, וידאו וקול.</span>
               </div>
             </div>
           </div>
@@ -1890,6 +1720,10 @@
             a1: g.demo.a1,
             a2: g.demo.a2,
             a3: g.demo.a3,
+            a4_text: g.demo.a4_text,
+            a4_image: g.demo.a4_image,
+            a4_video: g.demo.a4_video,
+            a4_audio: g.demo.a4_audio,
             submitted: true,
             submittedAt: timeStr,
             updatedAtMs: Date.now()
@@ -1931,6 +1765,10 @@
             a1: '',
             a2: '',
             a3: '',
+            a4_text: '',
+            a4_image: '',
+            a4_video: '',
+            a4_audio: '',
             submitted: false,
             submittedAt: '',
             updatedAtMs: Date.now()
@@ -1954,17 +1792,9 @@
 
     /**
      * =========================================================================
-     * מודל הצצה במיצגים 1, 2 ו-3 + מודל קוד QR
+     * מודל קוד QR וקישור ישיר לתלמידים
      * =========================================================================
      */
-    window.openExhibitsModal = function() {
-      document.getElementById('exhibitsQuickModal').classList.remove('hidden');
-    };
-
-    window.closeExhibitsModal = function() {
-      document.getElementById('exhibitsQuickModal').classList.add('hidden');
-    };
-
     function getStudentDirectUrl() {
       const url = new URL(window.location.href);
       url.searchParams.set('room', currentRoomId);
@@ -2081,7 +1911,7 @@
             timerIsRunning = false;
             refreshTimerDisplay();
             playGentleEndChime();
-            showToast('הסתיימו 10 דקות העבודה בקבוצות!');
+            showToast('הסתיימו 10 דקות העבודה בקבוצות — עוברים להצגות ולדיון!');
           }
         }
       }, 1000);
@@ -2102,12 +1932,6 @@
         if (e.key === 'Escape') closeSpotlightMode();
         if (e.key === 'ArrowLeft') stepSpotlightGroup(1);
         if (e.key === 'ArrowRight') stepSpotlightGroup(-1);
-        return;
-      }
-
-      if (activeMainTab === 'exhibits' && exhibitsLayout === 'slides') {
-        if (e.key === 'ArrowLeft') stepExhibitSlide(1);
-        if (e.key === 'ArrowRight') stepExhibitSlide(-1);
       }
     });
 

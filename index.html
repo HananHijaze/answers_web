@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>מחליטים לפני שהמידע אומת — פעילות כיתתית חיה</title>
 
-  <!-- טעינת גופנים בעברית (Heebo ו-Assistant) לקריאות גבוהה בנייד ובהקרנה -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- טעינת Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -25,7 +23,6 @@
     }
   </script>
 
-  <!-- ספריית QRCode.js ליצירת קוד QR לסריקה מהירה מהניידים בכיתה -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
@@ -35,25 +32,18 @@
       color: #0f172a;
       -webkit-tap-highlight-color: transparent;
     }
-    .tabular-nums {
-      font-variant-numeric: tabular-nums;
-    }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
     @keyframes urgentPulse {
       0%, 100% { background-color: #fee2e2; border-color: #ef4444; }
       50% { background-color: #fecaca; border-color: #dc2626; }
     }
-    .timer-ended {
-      animation: urgentPulse 1.2s infinite;
-    }
-    .fade-in {
-      animation: fadeIn 0.2s ease-out;
-    }
+    .timer-ended { animation: urgentPulse 1.2s infinite; }
+    .fade-in { animation: fadeIn 0.2s ease-out; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    #qrCodeContainer img,
-    #qrCodeContainer canvas {
+    #qrCodeContainer img, #qrCodeContainer canvas {
       margin: 0 auto;
       border-radius: 12px;
     }
@@ -61,16 +51,10 @@
 </head>
 <body class="min-h-screen flex flex-col selection:bg-indigo-100 selection:text-indigo-950">
 
-  <!-- ======================================================================= -->
-  <!-- סרגל עליון: סטטוס סנכרון, קוד חדר, טיימר 10:00 ו-2 לשוניות            -->
-  <!-- ======================================================================= -->
+  <!-- סרגל עליון -->
   <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 shadow-xs">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 space-y-2.5">
-
-      <!-- שורה עליונה: חדר + QR + טיימר 10 דקות -->
       <div class="flex flex-wrap items-center justify-between gap-2">
-        
-        <!-- צד ימין: חיווי ענן + קוד חדר + כפתור QR -->
         <div class="flex flex-wrap items-center gap-2">
           <div id="syncStatusPill" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-extrabold bg-amber-50 text-amber-800 border border-amber-200">
             <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
@@ -79,28 +63,11 @@
 
           <div class="flex items-center gap-1 bg-slate-100 border border-slate-300 rounded-xl px-2 py-1">
             <label for="roomCodeInput" class="text-xs font-bold text-slate-600">חדר:</label>
-            <input
-              id="roomCodeInput"
-              type="text"
-              value="kita-1"
-              dir="ltr"
-              onchange="switchRoom(this.value)"
-              class="w-20 sm:w-24 bg-white border border-slate-300 rounded-lg px-1.5 py-0.5 text-xs sm:text-sm font-extrabold text-slate-900 text-center focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-            <button
-              type="button"
-              onclick="switchRoom(document.getElementById('roomCodeInput').value)"
-              class="px-2 py-0.5 rounded-lg bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold transition cursor-pointer"
-            >
-              עבור
-            </button>
+            <input id="roomCodeInput" type="text" value="kita-1" dir="ltr" onchange="switchRoom(this.value)" class="w-20 sm:w-24 bg-white border border-slate-300 rounded-lg px-1.5 py-0.5 text-xs sm:text-sm font-extrabold text-slate-900 text-center focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            <button type="button" onclick="switchRoom(document.getElementById('roomCodeInput').value)" class="px-2 py-0.5 rounded-lg bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold transition cursor-pointer">עבור</button>
           </div>
 
-          <button
-            type="button"
-            onclick="openQrModal()"
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 text-xs sm:text-sm font-extrabold transition cursor-pointer"
-          >
+          <button type="button" onclick="openQrModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 text-xs sm:text-sm font-extrabold transition cursor-pointer">
             <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
             </svg>
@@ -108,118 +75,60 @@
           </button>
         </div>
 
-        <!-- צד שמאל: טיימר מובנה של 10 דקות (10:00) -->
         <div id="timerWidgetBox" class="flex items-center gap-1.5 bg-slate-100 border border-slate-300 px-2.5 py-1 rounded-xl">
           <span class="text-xs font-bold text-slate-600 hidden md:inline">⏱️ זמן עבודה בקבוצות:</span>
           <span id="timerDisplay" class="font-black text-sm sm:text-base text-slate-900 tabular-nums px-1.5">10:00</span>
-          <button
-            type="button"
-            id="timerToggleBtn"
-            onclick="toggleTimer()"
-            class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-extrabold transition cursor-pointer"
-          >
-            התחל
-          </button>
-          <button
-            type="button"
-            onclick="resetTimer()"
-            title="איפוס ל-10:00"
-            class="px-2 py-1 rounded-lg bg-white hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-200 transition cursor-pointer"
-          >
-            איפוס
-          </button>
+          <button type="button" id="timerToggleBtn" onclick="toggleTimer()" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-extrabold transition cursor-pointer">התחל</button>
+          <button type="button" onclick="resetTimer()" title="איפוס ל-10:00" class="px-2 py-1 rounded-lg bg-white hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-200 transition cursor-pointer">איפוס</button>
         </div>
-
       </div>
 
-      <!-- שורה תחתונה בסרגל: 2 הלשוניות של האפליקציה -->
       <nav aria-label="ניווט ראשי" class="grid grid-cols-2 gap-1.5 sm:gap-2 bg-slate-100 p-1 rounded-2xl border border-slate-200">
-        <button
-          type="button"
-          id="mainTab-student"
-          onclick="setMainTab('student')"
-          class="py-2 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center justify-center gap-1.5 cursor-pointer"
-        >
+        <button type="button" id="mainTab-student" onclick="setMainTab('student')" class="py-2 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center justify-center gap-1.5 cursor-pointer">
           <span>📱</span>
           <span>מסך תלמידים (מענה קבוצתי)</span>
         </button>
-
-        <button
-          type="button"
-          id="mainTab-presenter"
-          onclick="setMainTab('presenter')"
-          class="py-2 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center justify-center gap-1.5 cursor-pointer"
-        >
+        <button type="button" id="mainTab-presenter" onclick="setMainTab('presenter')" class="py-2 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center justify-center gap-1.5 cursor-pointer">
           <span>🖥️</span>
           <span>מסך מציגות והקרנה לכיתה</span>
         </button>
       </nav>
-
     </div>
   </header>
 
-
-  <!-- ======================================================================= -->
-  <!-- לשונית 1: מסך תלמידים (מענה קבוצתי) — מותאם לנייד ולמחשב              -->
-  <!-- ======================================================================= -->
+  <!-- לשונית 1: מסך תלמידים -->
   <main id="view-student" class="hidden max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 fade-in">
-    
-    <!-- שלב א׳: בחירת קבוצה ותפקיד (1 עד 4) -->
     <div id="studentPickerSection" class="space-y-6">
       <div class="text-center max-w-2xl mx-auto space-y-2">
         <span class="inline-block px-3.5 py-1 rounded-full bg-indigo-100 text-indigo-900 text-xs sm:text-sm font-extrabold">
           עבודה קבוצתית בזמן אמת • 10 דקות עבודה + 15 דקות הצגות ודיון
         </span>
-        <h1 class="text-2xl sm:text-4xl font-black text-slate-950">
-          בחרו את הקבוצה והתפקיד שלכם
-        </h1>
-        <p class="text-sm sm:text-base text-slate-600">
-          לחצו על כרטיס הקבוצה שהוקצתה לכם כדי לפתוח את טופס השאלות ולהגיש תשובה אחת לכל הקבוצה.
-        </p>
+        <h1 class="text-2xl sm:text-4xl font-black text-slate-950">בחרו את הקבוצה והתפקיד שלכם</h1>
+        <p class="text-sm sm:text-base text-slate-600">לחצו על כרטיס הקבוצה שהוקצתה לכם כדי לפתוח את טופס השאלות ולהגיש תשובה אחת לכל הקבוצה.</p>
       </div>
 
       <div class="flex items-center justify-center">
-        <span id="studentPickerCounter" class="text-xs sm:text-sm font-extrabold text-slate-700 bg-white px-4 py-1.5 rounded-full border border-slate-200 shadow-2xs">
-          0/4 קבוצות הגישו
-        </span>
+        <span id="studentPickerCounter" class="text-xs sm:text-sm font-extrabold text-slate-700 bg-white px-4 py-1.5 rounded-full border border-slate-200 shadow-2xs">0/4 קבוצות הגישו</span>
       </div>
 
-      <div id="studentGroupCardsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- מרונדר דינמית -->
-      </div>
+      <div id="studentGroupCardsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
     </div>
 
-
-    <!-- שלב ב׳: טופס השאלות של הקבוצה הנבחרת -->
     <div id="studentFormSection" class="hidden space-y-5">
-      
-      <!-- סרגל עליון בטופס: חזרה לבחירת קבוצה -->
       <div class="flex items-center justify-start">
-        <button
-          type="button"
-          onclick="leaveSelectedGroup()"
-          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs sm:text-sm font-extrabold shadow-2xs transition cursor-pointer"
-        >
+        <button type="button" onclick="leaveSelectedGroup()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs sm:text-sm font-extrabold shadow-2xs transition cursor-pointer">
           <span>→</span>
           <span>החלפת קבוצה</span>
         </button>
       </div>
 
-      <!-- כרטיס התפקיד של הקבוצה -->
-      <section id="studentGroupBannerCard" class="rounded-3xl border-2 p-5 sm:p-6 shadow-sm space-y-2.5">
-        <!-- מרונדר דינמית -->
-      </section>
+      <section id="studentGroupBannerCard" class="rounded-3xl border-2 p-5 sm:p-6 shadow-sm space-y-2.5"></section>
 
-      <!-- תיבת הנחיה בולטת מעל השאלות כולל מקורות מידע מותרים -->
       <div class="rounded-2xl bg-amber-50 border-2 border-amber-400 p-4 sm:p-5 shadow-2xs flex items-start gap-3">
-        <div class="w-9 h-9 rounded-xl bg-amber-400 text-slate-950 font-black flex items-center justify-center shrink-0 text-lg mt-0.5">
-          📌
-        </div>
+        <div class="w-9 h-9 rounded-xl bg-amber-400 text-slate-950 font-black flex items-center justify-center shrink-0 text-lg mt-0.5">📌</div>
         <div class="space-y-1.5">
           <div class="text-xs font-extrabold text-amber-900">הנחיה מחייבת ומקורות מידע מותרים:</div>
-          <p class="text-sm sm:text-base font-extrabold text-slate-950 leading-relaxed">
-            ענו מנקודת המבט של התפקיד שהוקצה לכם. הגישו תשובה אחת לכל קבוצה.
-          </p>
+          <p class="text-sm sm:text-base font-extrabold text-slate-950 leading-relaxed">ענו מנקודת המבט של התפקיד שהוקצה לכם. הגישו תשובה אחת לכל קבוצה.</p>
           <ul class="text-xs sm:text-sm text-slate-800 space-y-1 list-disc list-inside">
             <li><strong>מקורות לשאלות 1–3:</strong> בססו את תשובותיכם על <u>המקרה והנתונים שהוצגו בכיתה</u> בלבד (ללא חיפוש חיצוני).</li>
             <li><strong>מקורות לשאלה 4 (אימות מדיה):</strong> ניתן להיעזר בידע מוקדם או בחיפוש קצר ברשת לזיהוי כלי אימות לטקסט, תמונה, וידאו וקול.</li>
@@ -227,224 +136,97 @@
         </div>
       </div>
 
-      <!-- חיווי הצלחה ברור לאחר שליחת תשובת הקבוצה -->
       <div id="studentSuccessBanner" class="hidden rounded-2xl bg-emerald-600 text-white p-4 sm:p-5 shadow-md flex items-start gap-3">
         <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0 mt-0.5 text-lg">✅</div>
         <div class="space-y-1">
-          <p class="font-black text-base sm:text-lg leading-snug">
-            תשובת הקבוצה נשלחה בהצלחה ומופיעה כעת על לוח הכיתה!
-          </p>
-          <p id="studentSuccessTimeText" class="text-xs sm:text-sm text-emerald-100">
-            ניתן לעדכן ולשלוח מחדש בכל רגע במידה ותרצו לשפר את הניסוח.
-          </p>
+          <p class="font-black text-base sm:text-lg leading-snug">תשובת הקבוצה נשלחה בהצלחה ומופיעה כעת על לוח הכיתה!</p>
+          <p id="studentSuccessTimeText" class="text-xs sm:text-sm text-emerald-100">ניתן לעדכן ולשלוח מחדש בכל רגע במידה ותרצו לשפר את הניסוח.</p>
         </div>
       </div>
 
-      <!-- טופס 4 השאלות -->
       <form id="groupSubmissionForm" onsubmit="handleGroupSubmit(event)" class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-7 shadow-sm space-y-6">
-        
-        <!-- שמות חברי הקבוצה (אופציונלי) -->
         <div>
-          <label for="groupMembersInput" class="block text-sm font-bold text-slate-800 mb-1.5">
-            שמות חברי/ות הקבוצה <span class="text-slate-400 font-normal">(אופציונלי)</span>
-          </label>
-          <input
-            id="groupMembersInput"
-            type="text"
-            oninput="markFormDirty()"
-            placeholder="לדוגמה: נועה, מאיה, יובל ועומר"
-            class="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
+          <label for="groupMembersInput" class="block text-sm font-bold text-slate-800 mb-1.5">שמות חברי/ות הקבוצה <span class="text-slate-400 font-normal">(אופציונלי)</span></label>
+          <input id="groupMembersInput" type="text" oninput="markFormDirty()" placeholder="לדוגמה: נועה, מאיה, יובל ועומר" class="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
         </div>
 
-        <!-- שאלה 1 — משותפת לכל הקבוצות (כן / לא + נימוק ותנאים) -->
         <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 sm:p-5 space-y-3.5">
           <div class="space-y-1.5">
-            <span class="inline-block px-3 py-0.5 rounded-lg bg-slate-900 text-white text-xs font-extrabold">
-              שאלה 1 — משותפת לכל הקבוצות
-            </span>
-            <h2 class="text-base sm:text-lg font-black text-slate-950 leading-snug">
-              האם להטיל כבר עכשיו מגבלה זמנית על העברת הודעות לכל המשתמשים, לפני שהמידע אומת, גם במחיר האטת התרעה שעשויה להיות אמיתית? נמקו את החלטתכם.
-            </h2>
+            <span class="inline-block px-3 py-0.5 rounded-lg bg-slate-900 text-white text-xs font-extrabold">שאלה 1 — משותפת לכל הקבוצות</span>
+            <h2 class="text-base sm:text-lg font-black text-slate-950 leading-snug">האם להטיל כבר עכשיו מגבלה זמנית על העברת הודעות לכל המשתמשים, לפני שהמידע אומת, גם במחיר האטת התרעה שעשויה להיות אמיתית? נמקו את החלטתכם.</h2>
           </div>
 
-          <!-- אפשרויות בחירה גדולות: כן / לא -->
           <div class="grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              id="voteBtn-yes"
-              onclick="selectDecisionVote('yes')"
-              class="py-4 px-4 rounded-2xl border-2 font-black text-lg sm:text-xl transition flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <span>כן</span>
-            </button>
-            <button
-              type="button"
-              id="voteBtn-no"
-              onclick="selectDecisionVote('no')"
-              class="py-4 px-4 rounded-2xl border-2 font-black text-lg sm:text-xl transition flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <span>לא</span>
-            </button>
+            <button type="button" id="voteBtn-yes" onclick="selectDecisionVote('yes')" class="py-4 px-4 rounded-2xl border-2 font-black text-lg sm:text-xl transition flex items-center justify-center gap-2 cursor-pointer"><span>כן</span></button>
+            <button type="button" id="voteBtn-no" onclick="selectDecisionVote('no')" class="py-4 px-4 rounded-2xl border-2 font-black text-lg sm:text-xl transition flex items-center justify-center gap-2 cursor-pointer"><span>לא</span></button>
           </div>
 
-          <p class="text-xs sm:text-sm font-bold text-slate-600 bg-white px-3.5 py-2 rounded-xl border border-slate-200">
-            💡 אפשר להציע תנאים או חלופה, אך צריך להבהיר האם מפעילים מגבלה כללית עכשיו.
-          </p>
+          <p class="text-xs sm:text-sm font-bold text-slate-600 bg-white px-3.5 py-2 rounded-xl border border-slate-200">💡 אפשר להציע תנאים או חלופה, אך צריך להבהיר האם מפעילים מגבלה כללית עכשיו.</p>
 
           <div>
-            <label for="answer1Input" class="block text-sm font-extrabold text-slate-800 mb-1.5">
-              נימוק ההחלטה, תנאים/חלופה וביסוס העמדה על המקרה שהוצג:
-            </label>
-            <textarea
-              id="answer1Input"
-              rows="3"
-              oninput="markFormDirty()"
-              placeholder="נמקו את בחירתכם (כן / לא), ציינו תנאים או חלופה במידת הצורך, ובססו על המקרה..."
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed"
-            ></textarea>
+            <label for="answer1Input" class="block text-sm font-extrabold text-slate-800 mb-1.5">נימוק ההחלטה, תנאים/חלופה וביסוס העמדה על המקרה שהוצג:</label>
+            <textarea id="answer1Input" rows="3" oninput="markFormDirty()" placeholder="נמקו את בחירתכם (כן / לא), ציינו תנאים או חלופה במידת הצורך, ובססו על המקרה..." class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed"></textarea>
           </div>
         </div>
 
-        <!-- שאלות 2 ו-3 הייעודיות לתפקיד הקבוצה -->
-        <div id="roleSpecificQuestionsBox" class="space-y-5">
-          <!-- מרונדר דינמית לפי הקבוצה -->
-        </div>
+        <div id="roleSpecificQuestionsBox" class="space-y-5"></div>
 
-        <!-- שאלה 4 — משותפת לכל הקבוצות: אימות מידע לפי סוג מדיה -->
         <div class="rounded-2xl bg-indigo-50/70 border-2 border-indigo-200 p-4 sm:p-5 space-y-4">
           <div class="space-y-1">
-            <span class="inline-block px-3 py-0.5 rounded-lg bg-indigo-700 text-white text-xs font-extrabold">
-              שאלה 4 — משותפת לכל הקבוצות (ניתן להיעזר בידע מוקדם או בחיפוש קצר)
-            </span>
-            <h2 class="text-base sm:text-lg font-black text-slate-950 leading-snug">
-              כיצד ניתן לאמת את המידע החשוד בכל אחד מארבעת סוגי המדיה הבאים? ציינו כלי או שיטת בדיקה מעשית לכל פורמט:
-            </h2>
+            <span class="inline-block px-3 py-0.5 rounded-lg bg-indigo-700 text-white text-xs font-extrabold">שאלה 4 — משותפת לכל הקבוצות (ניתן להיעזר בידע מוקדם או בחיפוש קצר)</span>
+            <h2 class="text-base sm:text-lg font-black text-slate-950 leading-snug">כיצד ניתן לאמת את המידע החשוד בכל אחד מארבעת סוגי המדיה הבאים? ציינו כלי או שיטת בדיקה מעשית לכל פורמט:</h2>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
-              <label for="answer4TextInput" class="block text-xs sm:text-sm font-black text-slate-900 mb-1">
-                📝 מידע טקסטואלי (Text):
-              </label>
-              <textarea
-                id="answer4TextInput"
-                rows="2"
-                oninput="markFormDirty()"
-                placeholder="לדוגמה: הצלבת מקורות אמינים, בדיקת תאריך מקורי, אתרי Fact-checking..."
-                class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              ></textarea>
+              <label for="answer4TextInput" class="block text-xs sm:text-sm font-black text-slate-900 mb-1">📝 מידע טקסטואלי (Text):</label>
+              <textarea id="answer4TextInput" rows="2" oninput="markFormDirty()" placeholder="לדוגמה: הצלבת מקורות אמינים, בדיקת תאריך מקורי, אתרי Fact-checking..." class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
             </div>
-
             <div>
-              <label for="answer4ImageInput" class="block text-xs sm:text-sm font-black text-slate-900 mb-1">
-                🖼️ תמונות (Image):
-              </label>
-              <textarea
-                id="answer4ImageInput"
-                rows="2"
-                oninput="markFormDirty()"
-                placeholder="לדוגמה: חיפוש תמונה הפוך (Google Lens / TinEye), בדיקת מטא-דאטה EXIF..."
-                class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              ></textarea>
+              <label for="answer4ImageInput" class="block text-xs sm:text-sm font-black text-slate-900 mb-1">🖼️ תמונות (Image):</label>
+              <textarea id="answer4ImageInput" rows="2" oninput="markFormDirty()" placeholder="לדוגמה: חיפוש תמונה הפוך (Google Lens / TinEye), בדיקת מטא-דאטה EXIF..." class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
             </div>
-
             <div>
-              <label for="answer4VideoInput" class="block text-xs sm:text-sm font-black text-slate-900 mb-1">
-                🎬 וידאו (Video):
-              </label>
-              <textarea
-                id="answer4VideoInput"
-                rows="2"
-                oninput="markFormDirty()"
-                placeholder="לדוגמה: פירוק לפריימים (InVID) וחיפוש הפוך, אימות מיקום וסנכרון שפתיים..."
-                class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              ></textarea>
+              <label for="answer4VideoInput" class="block text-xs sm:text-sm font-black text-slate-900 mb-1">🎬 וידאו (Video):</label>
+              <textarea id="answer4VideoInput" rows="2" oninput="markFormDirty()" placeholder="לדוגמה: פירוק לפריימים (InVID) וחיפוש הפוך, אימות מיקום וסנכרון שפתיים..." class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
             </div>
-
             <div>
-              <label for="answer4AudioInput" class="block text-xs sm:text-sm font-black text-slate-900 mb-1">
-                🎙️ קול (Audio):
-              </label>
-              <textarea
-                id="answer4AudioInput"
-                rows="2"
-                oninput="markFormDirty()"
-                placeholder="לדוגמה: זיהוי אינטונציה מלאכותית, בדיקת רעשי רקע אחידים, אימות מול מקור רשמי..."
-                class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              ></textarea>
+              <label for="answer4AudioInput" class="block text-xs sm:text-sm font-black text-slate-900 mb-1">🎙️ קול (Audio):</label>
+              <textarea id="answer4AudioInput" rows="2" oninput="markFormDirty()" placeholder="לדוגמה: זיהוי אינטונציה מלאכותית, בדיקת רעשי רקע אחידים, אימות מול מקור רשמי..." class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
             </div>
           </div>
         </div>
 
-        <!-- כפתור שליחת תשובת הקבוצה ללוח הכיתה -->
         <div class="pt-1">
-          <button
-            type="submit"
-            id="submitGroupBtn"
-            class="w-full py-4 px-6 rounded-2xl font-black text-base sm:text-lg text-white bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] shadow-lg transition flex items-center justify-center gap-2.5 cursor-pointer"
-          >
+          <button type="submit" id="submitGroupBtn" class="w-full py-4 px-6 rounded-2xl font-black text-base sm:text-lg text-white bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] shadow-lg transition flex items-center justify-center gap-2.5 cursor-pointer">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
             </svg>
             <span id="submitGroupBtnText">שליחת תשובת הקבוצה ללוח הכיתה</span>
           </button>
         </div>
-
       </form>
     </div>
-
   </main>
 
-
-  <!-- ======================================================================= -->
-  <!-- לשונית 2: מסך מציגות והקרנה לכיתה (לוח תוצאות חי + Spotlight Mode)     -->
-  <!-- ======================================================================= -->
+  <!-- לשונית 2: מסך מציגות והקרנה לכיתה -->
   <main id="view-presenter" class="hidden max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6 fade-in">
-    
-    <!-- סרגל כלים למציגות -->
     <div class="bg-white rounded-2xl border border-slate-200 p-3.5 sm:p-4 shadow-2xs flex flex-wrap items-center justify-between gap-3">
-      
-      <!-- צד ימין: QR + מדריך אימות + תשובות לדוגמה + איפוס -->
       <div class="flex flex-wrap items-center gap-2">
-        <button
-          type="button"
-          onclick="openQrModal()"
-          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-slate-900 hover:bg-slate-800 text-white transition cursor-pointer"
-        >
-          <span>📲</span>
-          <span>קוד QR וקישור לתלמידים</span>
+        <button type="button" onclick="openQrModal()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-slate-900 hover:bg-slate-800 text-white transition cursor-pointer">
+          <span>📲</span><span>קוד QR וקישור לתלמידים</span>
         </button>
-
-        <button
-          type="button"
-          onclick="toggleVerificationGuide()"
-          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-300 transition cursor-pointer"
-        >
-          <span>📋</span>
-          <span>מפתח לדיון: אימות מדיה</span>
+        <button type="button" onclick="toggleVerificationGuide()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-300 transition cursor-pointer">
+          <span>📋</span><span>מפתח לדיון: אימות מדיה</span>
         </button>
-
-        <button
-          type="button"
-          onclick="loadDemoAnswers()"
-          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 transition cursor-pointer"
-        >
-          <span>🧪</span>
-          <span>טען תשובות לדוגמה</span>
+        <button type="button" onclick="loadDemoAnswers()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 transition cursor-pointer">
+          <span>🧪</span><span>טען תשובות לדוגמה</span>
         </button>
-
-        <button
-          type="button"
-          onclick="openClearConfirmModal()"
-          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-rose-50 hover:bg-rose-100 text-rose-900 border border-rose-200 transition cursor-pointer"
-        >
-          <span>🧹</span>
-          <span>נקה תשובות</span>
+        <button type="button" onclick="openClearConfirmModal()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-rose-50 hover:bg-rose-100 text-rose-900 border border-rose-200 transition cursor-pointer">
+          <span>🧹</span><span>נקה תשובות</span>
         </button>
       </div>
 
-      <!-- צד שמאל: כפתורי הגדלת/הקטנת גופן (א+ / א-) -->
       <div class="flex items-center gap-2">
         <span class="text-xs font-bold text-slate-500">גודל גופן בהקרנה:</span>
         <div class="flex items-center gap-1 bg-slate-100 border border-slate-300 px-2 py-1 rounded-xl">
@@ -453,10 +235,8 @@
           <button type="button" onclick="changeBoardFontScale(1)" class="px-2 py-0.5 rounded-lg hover:bg-white text-sm font-black text-slate-800 cursor-pointer">א+</button>
         </div>
       </div>
-
     </div>
 
-    <!-- מדריך מתקפל למנחות ולכיתה: סיכום שיטות אימות מידע (טקסט, תמונה, וידאו, קול) -->
     <section id="verificationGuidePanel" class="hidden bg-emerald-950 text-white rounded-3xl p-5 sm:p-6 shadow-lg border border-emerald-800 space-y-4">
       <div class="flex items-center justify-between border-b border-emerald-800 pb-3">
         <div>
@@ -485,64 +265,37 @@
       </div>
     </section>
 
-    <!-- מד התקדמות והצבעות חי (כן מול לא בשאלה 1) -->
     <section class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-xs space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
         <div>
-          <h2 class="text-lg sm:text-xl font-black text-slate-950">
-            מד התקדמות והצבעות חי — שאלה 1 (החלטה משותפת)
-          </h2>
-          <p class="text-xs sm:text-sm text-slate-600">
-            "האם להטיל כבר עכשיו מגבלה זמנית על העברת הודעות לכל המשתמשים, לפני שהמידע אומת?"
-          </p>
+          <h2 class="text-lg sm:text-xl font-black text-slate-950">מד התקדמות והצבעות חי — שאלה 1 (החלטה משותפת)</h2>
+          <p class="text-xs sm:text-sm text-slate-600">"האם להטיל כבר עכשיו מגבלה זמנית על העברת הודעות לכל המשתמשים, לפני שהמידע אומת?"</p>
         </div>
-
         <div id="liveProgressPill" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-black bg-amber-50 text-amber-900 border border-amber-200">
           <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
           <span>0/4 קבוצות הגישו</span>
         </div>
       </div>
-
-      <div id="yesNoTallyGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- מרונדר דינמית: כן מול לא -->
-      </div>
+      <div id="yesNoTallyGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
     </section>
 
-    <!-- תצוגת רשת של 4 כרטיסי הקבוצות המתעדכנים בזמן אמת -->
-    <section id="presenterGroupsGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- מרונדר דינמית -->
-    </section>
+    <section id="presenterGroupsGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></section>
 
-    <!-- אזור סיכום חי בתחתית המסך עבור המציגות -->
     <section class="bg-gradient-to-br from-slate-900 via-[#162338] to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-800 space-y-5">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/15 pb-4">
         <div class="flex items-center gap-3">
-          <div class="w-11 h-11 rounded-2xl bg-amber-400/20 text-amber-300 flex items-center justify-center text-2xl shrink-0">
-            💡
-          </div>
+          <div class="w-11 h-11 rounded-2xl bg-amber-400/20 text-amber-300 flex items-center justify-center text-2xl shrink-0">💡</div>
           <div>
             <h2 class="text-xl sm:text-2xl font-black">דיון המליאה וההחלטה המרכזית של הכיתה (9 דקות)</h2>
-            <p class="text-xs sm:text-sm text-slate-300">
-              השלב המרכזי של הפעילות: השוואת עמדות, דיון בדרכי אימות המידע (טקסט, תמונה, וידאו, קול) וגיבוש מסקנה משותפת
-            </p>
+            <p class="text-xs sm:text-sm text-slate-300">השלב המרכזי של הפעילות: השוואת עמדות, דיון בדרכי אימות המידע (טקסט, תמונה, וידאו, קול) וגיבוש מסקנה משותפת</p>
           </div>
         </div>
-
-        <button
-          type="button"
-          onclick="saveClassSummary(false)"
-          class="self-start sm:self-auto px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm transition cursor-pointer"
-        >
-          שמור סיכום כיתתי
-        </button>
+        <button type="button" onclick="saveClassSummary(false)" class="self-start sm:self-auto px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm transition cursor-pointer">שמור סיכום כיתתי</button>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- תזכורת למבנה ההצגה בסיום העבודה -->
         <div class="lg:col-span-5 bg-white/10 rounded-2xl p-4 sm:p-5 border border-white/15 space-y-2.5">
-          <h3 class="text-sm sm:text-base font-black text-amber-300">
-            🎤 מבנה ההצגה הקצרה של כל קבוצה (1.5 דק׳ לקבוצה):
-          </h3>
+          <h3 class="text-sm sm:text-base font-black text-amber-300">🎤 מבנה ההצגה הקצרה של כל קבוצה (1.5 דק׳ לקבוצה):</h3>
           <ol class="space-y-2 text-sm text-slate-100 list-decimal list-inside">
             <li><strong>ההחלטה של הקבוצה:</strong> כן או לא להטלת מגבלה זמנית עכשיו (ובאילו תנאים).</li>
             <li><strong>הראיה המרכזית:</strong> הנתונים והעובדות מהמקרה שעליהם הקבוצה ביססה את עמדתה.</li>
@@ -551,34 +304,19 @@
           </ol>
         </div>
 
-        <!-- תיבת הקלדה חיה לסיכום הכיתה -->
         <div class="lg:col-span-7 bg-white/5 border border-white/15 rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
           <div>
-            <label for="classConclusionTextarea" class="block text-sm font-extrabold text-emerald-300 mb-2">
-              ✍️ רשמו כאן יחד עם הכיתה את ההחלטה והתובנות המרכזיות שעלו מדיון המליאה:
-            </label>
-            <textarea
-              id="classConclusionTextarea"
-              rows="4"
-              oninput="handleSummaryInput(this.value)"
-              placeholder="לדוגמה: רוב הכיתה תמכה במגבלה זמנית ממוקדת... למדנו שסרטונים אמיתיים מחוץ להקשר דורשים פירוק לפריימים וחיפוש הפוך..."
-              class="w-full rounded-xl bg-slate-950/75 border border-white/20 p-3.5 text-base sm:text-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 leading-relaxed"
-            ></textarea>
+            <label for="classConclusionTextarea" class="block text-sm font-extrabold text-emerald-300 mb-2">✍️ רשמו כאן יחד עם הכיתה את ההחלטה והתובנות המרכזיות שעלו מדיון המליאה:</label>
+            <textarea id="classConclusionTextarea" rows="4" oninput="handleSummaryInput(this.value)" placeholder="לדוגמה: רוב הכיתה תמכה במגבלה זמנית ממוקדת... למדנו שסרטונים אמיתיים מחוץ להקשר דורשים פירוק לפריימים וחיפוש הפוך..." class="w-full rounded-xl bg-slate-950/75 border border-white/20 p-3.5 text-base sm:text-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 leading-relaxed"></textarea>
           </div>
           <p class="text-xs text-slate-400 mt-2">נשמר אוטומטית בחדר הכיתה בזמן אמת</p>
         </div>
       </div>
     </section>
-
   </main>
 
-
-  <!-- ======================================================================= -->
-  <!-- Spotlight Mode: שקופית מיקוד מסך מלא להסבר לכיתה                       -->
-  <!-- ======================================================================= -->
+  <!-- Spotlight Mode -->
   <div id="spotlightOverlay" class="hidden fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm flex flex-col">
-    
-    <!-- סרגל ניווט עליון בשקופית המיקוד -->
     <div class="bg-slate-900 border-b border-slate-800 px-4 sm:px-8 py-3 flex flex-wrap items-center justify-between gap-3 text-white">
       <div class="flex flex-wrap items-center gap-1.5">
         <span class="text-xs font-bold text-slate-400 ml-1">מעבר מהיר:</span>
@@ -587,86 +325,59 @@
         <button type="button" id="spotGroupTab-3" onclick="openSpotlightMode(3)" class="px-3 py-1.5 rounded-xl text-xs sm:text-sm font-extrabold transition cursor-pointer">קבוצה 3</button>
         <button type="button" id="spotGroupTab-4" onclick="openSpotlightMode(4)" class="px-3 py-1.5 rounded-xl text-xs sm:text-sm font-extrabold transition cursor-pointer">קבוצה 4</button>
       </div>
-
       <div class="flex flex-wrap items-center gap-2">
         <div class="flex items-center gap-1 bg-slate-800 border border-slate-700 px-2 py-1 rounded-xl">
           <button type="button" onclick="changeBoardFontScale(-1)" class="px-2 py-0.5 rounded hover:bg-slate-700 text-xs font-black cursor-pointer">א-</button>
           <span id="spotFontScaleLabel" class="text-xs text-slate-300 px-1 font-bold">רגיל</span>
           <button type="button" onclick="changeBoardFontScale(1)" class="px-2 py-0.5 rounded hover:bg-slate-700 text-sm font-black cursor-pointer">א+</button>
         </div>
-
         <button type="button" onclick="stepSpotlightGroup(-1)" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs sm:text-sm font-bold cursor-pointer">→ הקודמת</button>
         <button type="button" onclick="stepSpotlightGroup(1)" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs sm:text-sm font-bold cursor-pointer">הבאה ←</button>
         <button type="button" onclick="closeSpotlightMode()" class="px-4 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs sm:text-sm font-extrabold cursor-pointer">✕ סגור</button>
       </div>
     </div>
-
-    <!-- תוכן שקופית הקבוצה הנבחרת -->
     <div class="flex-1 overflow-y-auto p-4 sm:p-8 flex items-start justify-center">
-      <div id="spotlightSlideContainer" class="max-w-5xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden my-auto">
-        <!-- מרונדר דינמית -->
-      </div>
+      <div id="spotlightSlideContainer" class="max-w-5xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden my-auto"></div>
     </div>
-
   </div>
 
-
-  <!-- ======================================================================= -->
-  <!-- חלונית קוד QR וקישור ישיר לתלמידים                                      -->
-  <!-- ======================================================================= -->
+  <!-- חלונית קוד QR -->
   <div id="qrShareModal" class="hidden fixed inset-0 z-50 bg-slate-900/75 backdrop-blur-xs flex items-center justify-center p-4" onclick="if(event.target===this) closeQrModal()">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-200 space-y-5 text-center">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
         <h3 class="text-lg sm:text-xl font-black text-slate-950">הצטרפות התלמידים מהנייד</h3>
         <button type="button" onclick="closeQrModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold cursor-pointer">✕</button>
       </div>
-
-      <p class="text-sm text-slate-600">
-        סרקו את קוד ה־QR מהטלפון או היכנסו לקישור הישיר לחדר <strong dir="ltr" id="qrRoomNameLabel" class="text-indigo-700">kita-1</strong>:
-      </p>
-
+      <p class="text-sm text-slate-600">סרקו את קוד ה־QR מהטלפון או היכנסו לקישור הישיר לחדר <strong dir="ltr" id="qrRoomNameLabel" class="text-indigo-700">kita-1</strong>:</p>
       <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col items-center justify-center">
         <div id="qrCodeContainer" class="min-h-[190px] flex items-center justify-center"></div>
       </div>
-
       <div class="space-y-2 text-right">
         <label class="block text-xs font-bold text-slate-500">קישור ישיר למסך התלמידים:</label>
         <div class="flex items-center gap-2">
           <input id="qrDirectLinkInput" type="text" readonly dir="ltr" class="flex-1 bg-slate-100 border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-700 font-mono" />
-          <button type="button" onclick="copyStudentLink()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-extrabold shrink-0 cursor-pointer">
-            העתק קישור
-          </button>
+          <button type="button" onclick="copyStudentLink()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-extrabold shrink-0 cursor-pointer">העתק קישור</button>
         </div>
       </div>
     </div>
   </div>
 
-
-  <!-- ======================================================================= -->
-  <!-- חלונית אישור ניקוי תשובות (ללא alert / confirm)                         -->
-  <!-- ======================================================================= -->
+  <!-- חלונית אישור ניקוי תשובות -->
   <div id="clearConfirmModal" class="hidden fixed inset-0 z-50 bg-slate-900/75 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
       <div class="flex items-center gap-3 text-rose-600">
         <div class="w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center text-xl shrink-0">⚠️</div>
         <h3 class="text-lg font-black text-slate-950">ניקוי תשובות לפני השיעור</h3>
       </div>
-      <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-        האם למחוק את כל התשובות וההצבעות של 4 הקבוצות בחדר <strong dir="ltr" id="clearRoomNameLabel">kita-1</strong> לקראת תחילת הפעילות?
-      </p>
+      <p class="text-sm sm:text-base text-slate-600 leading-relaxed">האם למחוק את כל התשובות וההצבעות של 4 הקבוצות בחדר <strong dir="ltr" id="clearRoomNameLabel">kita-1</strong> לקראת תחילת הפעילות?</p>
       <div class="flex items-center justify-end gap-2 pt-2">
-        <button type="button" onclick="closeClearConfirmModal()" class="px-4 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100 cursor-pointer">
-          ביטול
-        </button>
-        <button type="button" onclick="confirmClearAllResponses()" class="px-5 py-2 rounded-xl text-sm font-extrabold bg-rose-600 hover:bg-rose-700 text-white cursor-pointer">
-          כן, נקה תשובות
-        </button>
+        <button type="button" onclick="closeClearConfirmModal()" class="px-4 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100 cursor-pointer">ביטול</button>
+        <button type="button" onclick="confirmClearAllResponses()" class="px-5 py-2 rounded-xl text-sm font-extrabold bg-rose-600 hover:bg-rose-700 text-white cursor-pointer">כן, נקה תשובות</button>
       </div>
     </div>
   </div>
 
-
-  <!-- הודעת Toast צפה -->
+  <!-- Toast -->
   <div id="toastBanner" class="fixed bottom-5 left-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
     <div class="bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl border border-slate-700 flex items-center gap-2.5 text-sm font-bold">
       <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
@@ -674,18 +385,11 @@
     </div>
   </div>
 
-
-  <!-- ======================================================================= -->
-  <!-- JavaScript & Firebase Firestore בזמן אמת                                -->
-  <!-- ======================================================================= -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    /**
-     * הגדרת 4 הקבוצות והשאלות הייעודיות לפי התפקידים
-     */
     const GROUPS_CONFIG = [
       {
         id: 1,
@@ -813,9 +517,6 @@
       }
     ];
 
-    /**
-     * משתני Firebase ומצב האפליקציה
-     */
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'kita-live-22f37';
     let db = null;
     let auth = null;
@@ -830,22 +531,16 @@
     let groupsState = {};
     let classSummaryText = '';
 
-    // ניהול לשוניות ראשיות: 'student' | 'presenter'
     const initialTabParam = urlParams.get('tab');
-    let activeMainTab = ['student', 'presenter'].includes(initialTabParam)
-      ? initialTabParam
-      : 'student';
+    let activeMainTab = ['student', 'presenter'].includes(initialTabParam) ? initialTabParam : 'student';
 
-    // ניהול מסך תלמידים
     let selectedStudentGroupId = null;
-    let selectedDecisionVote = ''; // 'yes' | 'no'
+    let selectedDecisionVote = '';
     let isFormDirty = false;
 
-    // ניהול מסך מציגות ו-Spotlight
     let boardFontScaleIndex = 0;
     let spotlightGroupId = null;
 
-    // טיימר מובנה של 10 דקות (10:00 = 600 שניות)
     const TIMER_INITIAL_SECONDS = 10 * 60;
     let timerSeconds = TIMER_INITIAL_SECONDS;
     let timerInterval = null;
@@ -878,14 +573,8 @@
       }, 2800);
     }
 
-    /**
-     * =========================================================================
-     * אתחול Firebase Auth ו-Firestore בזמן אמת
-     * =========================================================================
-     */
     async function initFirebase() {
       document.getElementById('roomCodeInput').value = currentRoomId;
-
       try {
         const firebaseConfig = {
           apiKey: "AIzaSyAXp-vu_GH5xR5HX1aWn5kQs1tuDb2pg3E",
@@ -910,7 +599,6 @@
         }
 
         if (!currentUser) return;
-
         updateSyncBadge('connected');
         subscribeToRoom(currentRoomId);
       } catch (err) {
@@ -923,7 +611,6 @@
     function updateSyncBadge(status) {
       const pill = document.getElementById('syncStatusPill');
       if (!pill) return;
-
       if (status === 'connected') {
         pill.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-extrabold bg-emerald-50 text-emerald-800 border border-emerald-200';
         pill.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span><span>מחובר בזמן אמת</span>`;
@@ -942,50 +629,37 @@
       if (unsubGroups) unsubGroups();
 
       const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'classroom_rooms_v3', roomId);
-      unsubRoom = onSnapshot(
-        roomRef,
-        (snap) => {
-          if (snap.exists()) {
-            const data = snap.data();
-            classSummaryText = typeof data.classSummary === 'string' ? data.classSummary : '';
-          } else {
-            classSummaryText = '';
-          }
-          renderApp();
-        },
-        (error) => {
-          console.error('Room snapshot error:', error);
+      unsubRoom = onSnapshot(roomRef, (snap) => {
+        if (snap.exists()) {
+          const data = snap.data();
+          classSummaryText = typeof data.classSummary === 'string' ? data.classSummary : '';
+        } else {
+          classSummaryText = '';
         }
-      );
+        renderApp();
+      }, (error) => console.error('Room snapshot error:', error));
 
       const groupsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'classroom_groups_v3');
-      unsubGroups = onSnapshot(
-        groupsColRef,
-        (snapshot) => {
-          const nextState = {};
-          snapshot.forEach((docSnap) => {
-            const d = docSnap.data();
-            if (d && d.roomId === roomId && d.groupId) {
-              nextState[Number(d.groupId)] = d;
-            }
-          });
-          groupsState = nextState;
-
-          if (selectedStudentGroupId) {
-            const sub = groupsState[selectedStudentGroupId];
-            if (!sub || !sub.submitted) {
-              document.getElementById('studentSuccessBanner')?.classList.add('hidden');
-              const btnTxt = document.getElementById('submitGroupBtnText');
-              if (btnTxt) btnTxt.textContent = 'שליחת תשובת הקבוצה ללוח הכיתה';
-            }
+      unsubGroups = onSnapshot(groupsColRef, (snapshot) => {
+        const nextState = {};
+        snapshot.forEach((docSnap) => {
+          const d = docSnap.data();
+          if (d && d.roomId === roomId && d.groupId) {
+            nextState[Number(d.groupId)] = d;
           }
+        });
+        groupsState = nextState;
 
-          renderApp();
-        },
-        (error) => {
-          console.error('Groups snapshot error:', error);
+        if (selectedStudentGroupId) {
+          const sub = groupsState[selectedStudentGroupId];
+          if (!sub || !sub.submitted) {
+            document.getElementById('studentSuccessBanner')?.classList.add('hidden');
+            const btnTxt = document.getElementById('submitGroupBtnText');
+            if (btnTxt) btnTxt.textContent = 'שליחת תשובת הקבוצה ללוח הכיתה';
+          }
         }
-      );
+        renderApp();
+      }, (error) => console.error('Groups snapshot error:', error));
     }
 
     window.switchRoom = function(rawCode) {
@@ -995,19 +669,11 @@
       groupsState = {};
       classSummaryText = '';
       isFormDirty = false;
-
-      if (db && currentUser) {
-        subscribeToRoom(nextRoom);
-      }
+      if (db && currentUser) subscribeToRoom(nextRoom);
       renderApp();
       showToast(`עברתם לחדר: ${nextRoom}`);
     };
 
-    /**
-     * =========================================================================
-     * ניווט ראשי בין 2 הלשוניות
-     * =========================================================================
-     */
     window.setMainTab = function(tabName) {
       activeMainTab = tabName;
       renderApp();
@@ -1015,45 +681,29 @@
     };
 
     function renderMainNavigation() {
-      const tabs = ['student', 'presenter'];
-      tabs.forEach((t) => {
+      ['student', 'presenter'].forEach((t) => {
         const btn = document.getElementById(`mainTab-${t}`);
         const view = document.getElementById(`view-${t}`);
         const isActive = activeMainTab === t;
-
         if (btn) {
           btn.className = isActive
             ? 'py-2 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-black bg-slate-900 text-white shadow-xs transition flex items-center justify-center gap-1.5 cursor-pointer'
             : 'py-2 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-bold text-slate-700 hover:bg-white transition flex items-center justify-center gap-1.5 cursor-pointer';
         }
-        if (view) {
-          view.classList.toggle('hidden', !isActive);
-        }
+        if (view) view.classList.toggle('hidden', !isActive);
       });
     }
 
     function renderApp() {
       renderMainNavigation();
-      if (activeMainTab === 'student') {
-        renderStudentTab();
-      } else if (activeMainTab === 'presenter') {
-        renderPresenterTab();
-      }
-
-      if (spotlightGroupId !== null) {
-        renderSpotlightSlide(spotlightGroupId);
-      }
+      if (activeMainTab === 'student') renderStudentTab();
+      else if (activeMainTab === 'presenter') renderPresenterTab();
+      if (spotlightGroupId !== null) renderSpotlightSlide(spotlightGroupId);
     }
 
-    /**
-     * =========================================================================
-     * לשונית 1: מסך תלמידים (מענה קבוצתי)
-     * =========================================================================
-     */
     function renderStudentTab() {
       const pickerSec = document.getElementById('studentPickerSection');
       const formSec = document.getElementById('studentFormSection');
-
       if (!selectedStudentGroupId) {
         pickerSec.classList.remove('hidden');
         formSec.classList.add('hidden');
@@ -1073,35 +723,24 @@
       grid.innerHTML = GROUPS_CONFIG.map((g) => {
         const sub = groupsState[g.id];
         const isDone = Boolean(sub && sub.submitted);
-
         return `
-          <button
-            type="button"
-            onclick="selectStudentGroup(${g.id})"
-            class="text-right rounded-3xl border-2 ${g.theme.cardBg} p-5 sm:p-6 shadow-2xs hover:shadow-md active:scale-[0.99] transition-all flex flex-col justify-between gap-4 cursor-pointer group"
-          >
+          <button type="button" onclick="selectStudentGroup(${g.id})" class="text-right rounded-3xl border-2 ${g.theme.cardBg} p-5 sm:p-6 shadow-2xs hover:shadow-md active:scale-[0.99] transition-all flex flex-col justify-between gap-4 cursor-pointer group">
             <div class="space-y-2.5 w-full">
               <div class="flex items-center justify-between gap-2">
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs sm:text-sm font-black ${g.theme.badge}">
-                  <span>${g.icon}</span>
-                  <span>${g.shortLabel}</span>
+                  <span>${g.icon}</span><span>${g.shortLabel}</span>
                 </span>
                 ${isDone
                   ? `<span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-950 text-xs font-black border border-emerald-300">הוגש ✅</span>`
                   : `<span class="px-2.5 py-1 rounded-full bg-white text-slate-700 text-xs font-extrabold border border-slate-200">בחרו בקבוצה זו ←</span>`
                 }
               </div>
-
-              <h2 class="text-lg sm:text-xl font-black ${g.theme.titleText} leading-snug">
-                ${g.fullTitle}
-              </h2>
-
+              <h2 class="text-lg sm:text-xl font-black ${g.theme.titleText} leading-snug">${g.fullTitle}</h2>
               <div class="bg-white/90 rounded-2xl p-3.5 border border-white space-y-1.5 text-xs sm:text-sm">
                 <p class="text-slate-900"><strong>המוקד:</strong> ${g.focus}</p>
                 <p class="text-slate-700"><strong>המשימה:</strong> ${g.mission}</p>
               </div>
             </div>
-
             <div class="w-full flex items-center justify-between text-xs sm:text-sm font-black ${g.theme.titleText} pt-1">
               <span>פתיחת טופס השאלות של ${g.shortLabel}</span>
               <span class="group-hover:-translate-x-1 transition-transform">←</span>
@@ -1136,8 +775,7 @@
       bannerCard.innerHTML = `
         <div class="flex items-center justify-between">
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs sm:text-sm font-black ${g.theme.badge}">
-            <span>${g.icon}</span>
-            <span>התפקיד שלכם</span>
+            <span>${g.icon}</span><span>התפקיד שלכם</span>
           </span>
         </div>
         <h1 class="text-xl sm:text-2xl font-black ${g.theme.titleText}">${g.fullTitle}</h1>
@@ -1156,12 +794,8 @@
       const curA2 = document.getElementById('answer2Input')?.value;
       const curA3 = document.getElementById('answer3Input')?.value;
 
-      const valA2 = isFormDirty && typeof curA2 === 'string'
-        ? curA2
-        : (existing?.submitted ? (existing.a2 || '') : '');
-      const valA3 = isFormDirty && typeof curA3 === 'string'
-        ? curA3
-        : (existing?.submitted ? (existing.a3 || '') : '');
+      const valA2 = isFormDirty && typeof curA2 === 'string' ? curA2 : (existing?.submitted ? (existing.a2 || '') : '');
+      const valA3 = isFormDirty && typeof curA3 === 'string' ? curA3 : (existing?.submitted ? (existing.a3 || '') : '');
 
       const qBox = document.getElementById('roleSpecificQuestionsBox');
       qBox.innerHTML = `
@@ -1170,27 +804,14 @@
             <span class="inline-block px-2.5 py-0.5 rounded-lg ${g.theme.badge} text-xs font-black ml-1.5">שאלה 2</span>
             ${escapeHtml(g.q2)}
           </label>
-          <textarea
-            id="answer2Input"
-            rows="4"
-            oninput="markFormDirty()"
-            placeholder="כתבו כאן את תשובת הקבוצה..."
-            class="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed"
-          >${escapeHtml(valA2)}</textarea>
+          <textarea id="answer2Input" rows="4" oninput="markFormDirty()" placeholder="כתבו כאן את תשובת הקבוצה..." class="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed">${escapeHtml(valA2)}</textarea>
         </div>
-
         <div class="space-y-2">
           <label for="answer3Input" class="block text-sm sm:text-base font-black text-slate-950 leading-snug">
             <span class="inline-block px-2.5 py-0.5 rounded-lg ${g.theme.badge} text-xs font-black ml-1.5">שאלה 3</span>
             ${escapeHtml(g.q3)}
           </label>
-          <textarea
-            id="answer3Input"
-            rows="4"
-            oninput="markFormDirty()"
-            placeholder="כתבו כאן את תשובת הקבוצה..."
-            class="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed"
-          >${escapeHtml(valA3)}</textarea>
+          <textarea id="answer3Input" rows="4" oninput="markFormDirty()" placeholder="כתבו כאן את תשובת הקבוצה..." class="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed">${escapeHtml(valA3)}</textarea>
         </div>
       `;
 
@@ -1236,21 +857,15 @@
       const noBtn = document.getElementById('voteBtn-no');
       if (!yesBtn || !noBtn) return;
 
-      if (selectedDecisionVote === 'yes') {
-        yesBtn.className = 'py-4 px-4 rounded-2xl border-2 border-emerald-600 bg-emerald-600 text-white font-black text-lg sm:text-xl shadow-md transition flex items-center justify-center gap-2 cursor-pointer';
-        yesBtn.innerHTML = `<span>✓</span><span>כן</span>`;
-      } else {
-        yesBtn.className = 'py-4 px-4 rounded-2xl border-2 border-slate-300 bg-white hover:bg-emerald-50 hover:border-emerald-400 text-slate-800 font-black text-lg sm:text-xl transition flex items-center justify-center gap-2 cursor-pointer';
-        yesBtn.innerHTML = `<span>כן</span>`;
-      }
+      yesBtn.className = selectedDecisionVote === 'yes'
+        ? 'py-4 px-4 rounded-2xl border-2 border-emerald-600 bg-emerald-600 text-white font-black text-lg sm:text-xl shadow-md transition flex items-center justify-center gap-2 cursor-pointer'
+        : 'py-4 px-4 rounded-2xl border-2 border-slate-300 bg-white hover:bg-emerald-50 hover:border-emerald-400 text-slate-800 font-black text-lg sm:text-xl transition flex items-center justify-center gap-2 cursor-pointer';
+      yesBtn.innerHTML = selectedDecisionVote === 'yes' ? `<span>✓</span><span>כן</span>` : `<span>כן</span>`;
 
-      if (selectedDecisionVote === 'no') {
-        noBtn.className = 'py-4 px-4 rounded-2xl border-2 border-rose-600 bg-rose-600 text-white font-black text-lg sm:text-xl shadow-md transition flex items-center justify-center gap-2 cursor-pointer';
-        noBtn.innerHTML = `<span>✓</span><span>לא</span>`;
-      } else {
-        noBtn.className = 'py-4 px-4 rounded-2xl border-2 border-slate-300 bg-white hover:bg-rose-50 hover:border-rose-400 text-slate-800 font-black text-lg sm:text-xl transition flex items-center justify-center gap-2 cursor-pointer';
-        noBtn.innerHTML = `<span>לא</span>`;
-      }
+      noBtn.className = selectedDecisionVote === 'no'
+        ? 'py-4 px-4 rounded-2xl border-2 border-rose-600 bg-rose-600 text-white font-black text-lg sm:text-xl shadow-md transition flex items-center justify-center gap-2 cursor-pointer'
+        : 'py-4 px-4 rounded-2xl border-2 border-slate-300 bg-white hover:bg-rose-50 hover:border-rose-400 text-slate-800 font-black text-lg sm:text-xl transition flex items-center justify-center gap-2 cursor-pointer';
+      noBtn.innerHTML = selectedDecisionVote === 'no' ? `<span>✓</span><span>לא</span>` : `<span>לא</span>`;
     }
 
     window.selectDecisionVote = function(choice) {
@@ -1263,9 +878,6 @@
       isFormDirty = true;
     };
 
-    /**
-     * שליחת תשובת הקבוצה ל-Firestore בזמן אמת
-     */
     window.handleGroupSubmit = async function(event) {
       event.preventDefault();
       if (!selectedStudentGroupId) return;
@@ -1296,13 +908,7 @@
         groupId: selectedStudentGroupId,
         members,
         vote: selectedDecisionVote,
-        a1,
-        a2,
-        a3,
-        a4_text,
-        a4_image,
-        a4_video,
-        a4_audio,
+        a1, a2, a3, a4_text, a4_image, a4_video, a4_audio,
         submitted: true,
         submittedAt: timeStr,
         updatedAtMs: Date.now()
@@ -1334,11 +940,470 @@
       }
     };
 
-
-    /**
-     * =========================================================================
-     * לשונית 2: מסך מציגות והקרנה לכיתה
-     * =========================================================================
-     */
     const BOARD_FONT_SCALES = [
-      { label: 'רגיל', q: 'text-xs sm
+      { label: 'רגיל', q: 'text-xs sm:text-sm', a: 'text-sm sm:text-base', spotQ: 'text-base sm:text-lg', spotA: 'text-lg sm:text-xl' },
+      { label: 'גדול', q: 'text-sm sm:text-base', a: 'text-base sm:text-lg', spotQ: 'text-lg sm:text-xl', spotA: 'text-xl sm:text-2xl' },
+      { label: 'ענק', q: 'text-base sm:text-lg', a: 'text-lg sm:text-xl', spotQ: 'text-xl sm:text-2xl', spotA: 'text-2xl sm:text-3xl' }
+    ];
+
+    window.toggleVerificationGuide = function() {
+      document.getElementById('verificationGuidePanel')?.classList.toggle('hidden');
+    };
+
+    window.changeBoardFontScale = function(delta) {
+      boardFontScaleIndex = Math.max(0, Math.min(BOARD_FONT_SCALES.length - 1, boardFontScaleIndex + delta));
+      const label = BOARD_FONT_SCALES[boardFontScaleIndex].label;
+      const bLabel = document.getElementById('boardFontScaleLabel');
+      const sLabel = document.getElementById('spotFontScaleLabel');
+      if (bLabel) bLabel.textContent = label;
+      if (sLabel) sLabel.textContent = label;
+      renderPresenterTab();
+      if (spotlightGroupId !== null) renderSpotlightSlide(spotlightGroupId);
+    };
+
+    function renderPresenterTab() {
+      const scale = BOARD_FONT_SCALES[boardFontScaleIndex] || BOARD_FONT_SCALES[0];
+      const submittedCount = GROUPS_CONFIG.filter((g) => groupsState[g.id]?.submitted).length;
+      const progressPill = document.getElementById('liveProgressPill');
+
+      if (submittedCount === 4) {
+        progressPill.className = 'inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-black bg-emerald-100 text-emerald-950 border border-emerald-300';
+        progressPill.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span><span>4/4 קבוצות הגישו ✅</span>`;
+      } else {
+        progressPill.className = 'inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-black bg-amber-50 text-amber-900 border border-amber-200';
+        progressPill.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span><span>${submittedCount}/4 קבוצות הגישו</span>`;
+      }
+
+      const yesVoters = GROUPS_CONFIG.filter((g) => groupsState[g.id]?.submitted && groupsState[g.id]?.vote === 'yes');
+      const noVoters = GROUPS_CONFIG.filter((g) => groupsState[g.id]?.submitted && groupsState[g.id]?.vote === 'no');
+      const yesPct = Math.round((yesVoters.length / 4) * 100);
+      const noPct = Math.round((noVoters.length / 4) * 100);
+
+      document.getElementById('yesNoTallyGrid').innerHTML = `
+        <div class="rounded-2xl border-2 border-emerald-200 bg-emerald-50/60 p-4 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-base sm:text-lg font-black text-emerald-950">✅ כן — להטיל מגבלה זמנית עכשיו</span>
+            <span class="px-3 py-0.5 rounded-full bg-emerald-600 text-white text-xs sm:text-sm font-black">${yesVoters.length} קבוצות</span>
+          </div>
+          <div class="w-full h-3 bg-emerald-200/70 rounded-full overflow-hidden">
+            <div class="h-full bg-emerald-600 transition-all duration-500" style="width: ${yesPct}%"></div>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5 min-h-[28px]">
+            ${yesVoters.length > 0 ? yesVoters.map((v) => `<span class="px-2.5 py-0.5 rounded-lg text-xs font-black ${v.theme.badge}">${v.icon} ${v.shortLabel}</span>`).join('') : `<span class="text-xs text-slate-500 italic">טרם נבחר</span>`}
+          </div>
+        </div>
+        <div class="rounded-2xl border-2 border-rose-200 bg-rose-50/60 p-4 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-base sm:text-lg font-black text-rose-950">❌ לא — לא להטיל מגבלה כללית עכשיו</span>
+            <span class="px-3 py-0.5 rounded-full bg-rose-600 text-white text-xs sm:text-sm font-black">${noVoters.length} קבוצות</span>
+          </div>
+          <div class="w-full h-3 bg-rose-200/70 rounded-full overflow-hidden">
+            <div class="h-full bg-rose-600 transition-all duration-500" style="width: ${noPct}%"></div>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5 min-h-[28px]">
+            ${noVoters.length > 0 ? noVoters.map((v) => `<span class="px-2.5 py-0.5 rounded-lg text-xs font-black ${v.theme.badge}">${v.icon} ${v.shortLabel}</span>`).join('') : `<span class="text-xs text-slate-500 italic">טרם נבחר</span>`}
+          </div>
+        </div>
+      `;
+
+      document.getElementById('presenterGroupsGrid').innerHTML = GROUPS_CONFIG.map((g) => {
+        const sub = groupsState[g.id];
+        const isSubmitted = Boolean(sub && sub.submitted);
+        const voteBadgeHtml = isSubmitted && sub.vote
+          ? (sub.vote === 'yes'
+              ? `<span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl bg-emerald-600 text-white text-xs sm:text-sm font-black">✓ החלטה: כן (מגבלה זמנית)</span>`
+              : `<span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl bg-rose-600 text-white text-xs sm:text-sm font-black">✕ החלטה: לא (ללא מגבלה כללית)</span>`)
+          : `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white/80 border border-slate-200 text-xs text-slate-500 font-bold">החלטה: טרם נשלחה</span>`;
+        const hasQ4 = isSubmitted && (sub.a4_text || sub.a4_image || sub.a4_video || sub.a4_audio);
+
+        return `
+          <article class="rounded-3xl border-2 ${isSubmitted ? g.theme.borderStrong : 'border-slate-200'} bg-white shadow-sm overflow-hidden flex flex-col justify-between transition-all">
+            <div>
+              <div class="${g.theme.headerBg} px-5 py-4 border-b ${g.theme.border} space-y-2">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-black ${g.theme.badge}">
+                    <span>${g.icon}</span><span>${g.shortLabel}</span>
+                  </span>
+                  ${isSubmitted
+                    ? `<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-100 text-emerald-950 text-xs font-black border border-emerald-300"><span>הוגש ✅</span>${sub.submittedAt ? `<span class="opacity-75">(${sub.submittedAt})</span>` : ''}</span>`
+                    : `<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white text-slate-500 text-xs font-bold border border-slate-200"><span>ממתינים... ⏳</span></span>`
+                  }
+                </div>
+                <h3 class="text-lg sm:text-xl font-black ${g.theme.titleText}">${g.fullTitle}</h3>
+                ${isSubmitted && sub.members ? `<p class="text-xs sm:text-sm font-bold text-slate-700">👥 חברי הקבוצה: ${escapeHtml(sub.members)}</p>` : ''}
+                <div class="pt-0.5">${voteBadgeHtml}</div>
+              </div>
+
+              <div class="p-5 space-y-4">
+                <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200 space-y-1">
+                  <div class="text-xs font-black text-slate-500">שאלה 1 (החלטה משותפת ונימוק):</div>
+                  ${isSubmitted && sub.a1 ? `<p class="${scale.a} font-medium text-slate-900 leading-relaxed whitespace-pre-line">${escapeHtml(sub.a1)}</p>` : `<p class="text-sm italic text-slate-400">ממתינים לתשובת הקבוצה...</p>`}
+                </div>
+                <div class="border-r-4 ${g.theme.borderStrong} pr-3.5 space-y-1">
+                  <div class="${scale.q} font-extrabold text-slate-500">שאלה 2: ${escapeHtml(g.q2)}</div>
+                  ${isSubmitted && sub.a2 ? `<p class="${scale.a} font-medium text-slate-900 leading-relaxed whitespace-pre-line">${escapeHtml(sub.a2)}</p>` : `<p class="text-sm italic text-slate-400">ממתינים למענה...</p>`}
+                </div>
+                <div class="border-r-4 ${g.theme.border} pr-3.5 space-y-1">
+                  <div class="${scale.q} font-extrabold text-slate-500">שאלה 3: ${escapeHtml(g.q3)}</div>
+                  ${isSubmitted && sub.a3 ? `<p class="${scale.a} font-medium text-slate-900 leading-relaxed whitespace-pre-line">${escapeHtml(sub.a3)}</p>` : `<p class="text-sm italic text-slate-400">ממתינים למענה...</p>`}
+                </div>
+                <div class="bg-indigo-50/70 rounded-2xl p-3.5 border border-indigo-200 space-y-2">
+                  <div class="text-xs font-black text-indigo-900">שאלה 4 — שיטות לאימות מידע לפי פורמט:</div>
+                  ${hasQ4
+                    ? `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-900">
+                        <div class="bg-white/90 rounded-xl p-2 border border-indigo-100"><strong>📝 טקסט:</strong> ${escapeHtml(sub.a4_text || '—')}</div>
+                        <div class="bg-white/90 rounded-xl p-2 border border-indigo-100"><strong>🖼️ תמונה:</strong> ${escapeHtml(sub.a4_image || '—')}</div>
+                        <div class="bg-white/90 rounded-xl p-2 border border-indigo-100"><strong>🎬 וידאו:</strong> ${escapeHtml(sub.a4_video || '—')}</div>
+                        <div class="bg-white/90 rounded-xl p-2 border border-indigo-100"><strong>🎙️ קול:</strong> ${escapeHtml(sub.a4_audio || '—')}</div>
+                      </div>`
+                    : `<p class="text-xs italic text-slate-400">ממתינים לשיטות אימות (טקסט, תמונה, וידאו, קול)...</p>`
+                  }
+                </div>
+              </div>
+            </div>
+
+            <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex justify-end">
+              <button type="button" onclick="openSpotlightMode(${g.id})" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-black text-white ${g.theme.btn} shadow-2xs transition cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                </svg>
+                <span>הגדל להסבר בכיתה</span>
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      const summaryEl = document.getElementById('classConclusionTextarea');
+      if (summaryEl && document.activeElement !== summaryEl) {
+        summaryEl.value = classSummaryText || '';
+      }
+    }
+
+    let summarySaveTimeout = null;
+    window.handleSummaryInput = function(val) {
+      classSummaryText = val;
+      clearTimeout(summarySaveTimeout);
+      summarySaveTimeout = setTimeout(() => saveClassSummary(true), 700);
+    };
+
+    window.saveClassSummary = async function(silent = false) {
+      const val = document.getElementById('classConclusionTextarea')?.value || '';
+      classSummaryText = val;
+      try {
+        if (db && currentUser) {
+          const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'classroom_rooms_v3', currentRoomId);
+          await setDoc(roomRef, { classSummary: classSummaryText, updatedAtMs: Date.now() }, { merge: true });
+        }
+        if (!silent) showToast('ההחלטה והתובנות של הכיתה נשמרו!');
+      } catch (err) {
+        console.error('Error saving class summary:', err);
+      }
+    };
+
+    window.openSpotlightMode = function(groupId) {
+      spotlightGroupId = Number(groupId);
+      document.getElementById('spotlightOverlay').classList.remove('hidden');
+      renderSpotlightSlide(spotlightGroupId);
+    };
+
+    window.closeSpotlightMode = function() {
+      spotlightGroupId = null;
+      document.getElementById('spotlightOverlay').classList.add('hidden');
+    };
+
+    window.stepSpotlightGroup = function(delta) {
+      if (!spotlightGroupId) return;
+      let next = spotlightGroupId + delta;
+      if (next > 4) next = 1;
+      if (next < 1) next = 4;
+      openSpotlightMode(next);
+    };
+
+    function renderSpotlightSlide(groupId) {
+      const g = GROUPS_CONFIG.find((item) => item.id === groupId);
+      if (!g) return;
+
+      [1, 2, 3, 4].forEach((id) => {
+        const tab = document.getElementById(`spotGroupTab-${id}`);
+        if (tab) {
+          tab.className = id === groupId
+            ? `px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-black ${g.theme.badge} shadow-xs cursor-pointer`
+            : 'px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer';
+        }
+      });
+
+      const sub = groupsState[g.id];
+      const isSubmitted = Boolean(sub && sub.submitted);
+      const scale = BOARD_FONT_SCALES[boardFontScaleIndex] || BOARD_FONT_SCALES[0];
+
+      const decisionBanner = isSubmitted && sub.vote
+        ? (sub.vote === 'yes'
+            ? `<div class="p-4 sm:p-5 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-emerald-950 space-y-1">
+                <div class="text-xs sm:text-sm font-black text-emerald-700">שאלה 1 — ההחלטה של הקבוצה:</div>
+                <div class="text-xl sm:text-2xl font-black">✓ כן — להטיל מגבלה זמנית עכשיו</div>
+                ${sub.a1 ? `<p class="${scale.spotA} font-semibold text-slate-900 pt-1 leading-relaxed whitespace-pre-line">${escapeHtml(sub.a1)}</p>` : ''}
+              </div>`
+            : `<div class="p-4 sm:p-5 rounded-2xl bg-rose-50 border-2 border-rose-500 text-rose-950 space-y-1">
+                <div class="text-xs sm:text-sm font-black text-rose-700">שאלה 1 — ההחלטה של הקבוצה:</div>
+                <div class="text-xl sm:text-2xl font-black">✕ לא — לא להטיל מגבלה כללית עכשיו</div>
+                ${sub.a1 ? `<p class="${scale.spotA} font-semibold text-slate-900 pt-1 leading-relaxed whitespace-pre-line">${escapeHtml(sub.a1)}</p>` : ''}
+              </div>`)
+        : `<div class="p-4 rounded-2xl bg-slate-100 border border-slate-200 text-slate-500 font-bold">הקבוצה טרם שלחה את החלטתה</div>`;
+
+      const hasQ4 = isSubmitted && (sub.a4_text || sub.a4_image || sub.a4_video || sub.a4_audio);
+
+      document.getElementById('spotlightSlideContainer').innerHTML = `
+        <div class="${g.theme.headerBg} px-6 sm:px-10 py-6 border-b-2 ${g.theme.border} space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-2xl text-sm sm:text-base font-black ${g.theme.badge}">
+              <span>${g.icon}</span><span>${g.shortLabel}</span>
+            </span>
+            ${isSubmitted && sub.members ? `<span class="px-4 py-1.5 rounded-full bg-white text-slate-800 text-sm sm:text-base font-extrabold border border-slate-200">👥 חברי הקבוצה: ${escapeHtml(sub.members)}</span>` : ''}
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-black ${g.theme.titleText} leading-tight">${g.fullTitle}</h2>
+          <p class="text-sm sm:text-lg text-slate-800"><strong>המוקד:</strong> ${g.focus}</p>
+        </div>
+
+        <div class="p-6 sm:p-10 space-y-6">
+          ${decisionBanner}
+          <div class="border-r-4 ${g.theme.borderStrong} pr-5 space-y-1.5">
+            <div class="${scale.spotQ} font-extrabold text-slate-500">שאלה 2: ${escapeHtml(g.q2)}</div>
+            ${isSubmitted && sub.a2 ? `<p class="${scale.spotA} font-bold text-slate-900 leading-relaxed whitespace-pre-line">${escapeHtml(sub.a2)}</p>` : `<p class="text-lg italic text-slate-400">ממתינים לתשובת הקבוצה...</p>`}
+          </div>
+          <div class="border-r-4 ${g.theme.border} pr-5 space-y-1.5">
+            <div class="${scale.spotQ} font-extrabold text-slate-500">שאלה 3: ${escapeHtml(g.q3)}</div>
+            ${isSubmitted && sub.a3 ? `<p class="${scale.spotA} font-bold text-slate-900 leading-relaxed whitespace-pre-line">${escapeHtml(sub.a3)}</p>` : `<p class="text-lg italic text-slate-400">ממתינים לתשובת הקבוצה...</p>`}
+          </div>
+          <div class="rounded-2xl bg-indigo-50 border-2 border-indigo-200 p-5 space-y-3">
+            <div class="text-sm sm:text-base font-black text-indigo-950">שאלה 4 — שיטות אימות מידע לפי פורמט:</div>
+            ${hasQ4
+              ? `<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm sm:text-base text-slate-900">
+                  <div class="bg-white rounded-xl p-3 border border-indigo-100"><strong>📝 טקסט:</strong> ${escapeHtml(sub.a4_text || '—')}</div>
+                  <div class="bg-white rounded-xl p-3 border border-indigo-100"><strong>🖼️ תמונה:</strong> ${escapeHtml(sub.a4_image || '—')}</div>
+                  <div class="bg-white rounded-xl p-3 border border-indigo-100"><strong>🎬 וידאו:</strong> ${escapeHtml(sub.a4_video || '—')}</div>
+                  <div class="bg-white rounded-xl p-3 border border-indigo-100"><strong>🎙️ קול:</strong> ${escapeHtml(sub.a4_audio || '—')}</div>
+                </div>`
+              : `<p class="text-sm italic text-slate-400">ממתינים לתשובת הקבוצה...</p>`
+            }
+          </div>
+          <div class="rounded-2xl bg-slate-900 text-white p-5 space-y-2 border border-slate-800">
+            <div class="text-xs sm:text-sm font-black text-amber-300">🎤 דגשים להצגה הקצרה של הקבוצה לכיתה (1.5 דקות):</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs sm:text-sm">
+              <div class="bg-white/10 rounded-xl p-3"><strong class="text-amber-300 block mb-0.5">1. ההחלטה של הקבוצה</strong><span>כן או לא להטלת מגבלה זמנית עכשיו (ובאילו תנאים).</span></div>
+              <div class="bg-white/10 rounded-xl p-3"><strong class="text-amber-300 block mb-0.5">2. הראיה המרכזית</strong><span>הנתונים והעובדות שעליהם התבססה העמדה.</span></div>
+              <div class="bg-white/10 rounded-xl p-3"><strong class="text-amber-300 block mb-0.5">3. המחיר שמוכנים לקבל</strong><span>הסיכון או הפגיעה שהקבוצה מוכנה לשאת.</span></div>
+              <div class="bg-white/10 rounded-xl p-3"><strong class="text-amber-300 block mb-0.5">4. אימות המידע</strong><span>איך מאמתים טקסט, תמונה, וידאו וקול.</span></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    window.loadDemoAnswers = async function() {
+      const now = new Date();
+      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      try {
+        for (const g of GROUPS_CONFIG) {
+          const payload = {
+            roomId: currentRoomId,
+            groupId: g.id,
+            members: g.demo.members,
+            vote: g.demo.vote,
+            a1: g.demo.a1,
+            a2: g.demo.a2,
+            a3: g.demo.a3,
+            a4_text: g.demo.a4_text,
+            a4_image: g.demo.a4_image,
+            a4_video: g.demo.a4_video,
+            a4_audio: g.demo.a4_audio,
+            submitted: true,
+            submittedAt: timeStr,
+            updatedAtMs: Date.now()
+          };
+          groupsState[g.id] = payload;
+          if (db && currentUser) {
+            const docId = `${currentRoomId}__group_${g.id}`;
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'classroom_groups_v3', docId);
+            await setDoc(docRef, payload);
+          }
+        }
+        renderApp();
+        showToast('נטענו תשובות לדוגמה עבור כל 4 הקבוצות!');
+      } catch (err) {
+        console.error('Demo load failed:', err);
+        showToast('שגיאה בטעינת תשובות לדוגמה');
+      }
+    };
+
+    window.openClearConfirmModal = function() {
+      document.getElementById('clearRoomNameLabel').textContent = currentRoomId;
+      document.getElementById('clearConfirmModal').classList.remove('hidden');
+    };
+
+    window.closeClearConfirmModal = function() {
+      document.getElementById('clearConfirmModal').classList.add('hidden');
+    };
+
+    window.confirmClearAllResponses = async function() {
+      closeClearConfirmModal();
+      try {
+        for (const g of GROUPS_CONFIG) {
+          const emptyPayload = {
+            roomId: currentRoomId,
+            groupId: g.id,
+            members: '', vote: '', a1: '', a2: '', a3: '',
+            a4_text: '', a4_image: '', a4_video: '', a4_audio: '',
+            submitted: false, submittedAt: '', updatedAtMs: Date.now()
+          };
+          groupsState[g.id] = emptyPayload;
+          if (db && currentUser) {
+            const docId = `${currentRoomId}__group_${g.id}`;
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'classroom_groups_v3', docId);
+            await setDoc(docRef, emptyPayload);
+          }
+        }
+        renderApp();
+        showToast('כל התשובות נוקו לקראת תחילת השיעור!');
+      } catch (err) {
+        console.error('Clear responses failed:', err);
+        showToast('שגיאה בניקוי התשובות');
+      }
+    };
+
+    function getStudentDirectUrl() {
+      const url = new URL(window.location.href);
+      url.searchParams.set('room', currentRoomId);
+      url.searchParams.set('tab', 'student');
+      return url.toString();
+    }
+
+    window.openQrModal = function() {
+      const link = getStudentDirectUrl();
+      document.getElementById('qrRoomNameLabel').textContent = currentRoomId;
+      document.getElementById('qrDirectLinkInput').value = link;
+      document.getElementById('qrShareModal').classList.remove('hidden');
+
+      const qrBox = document.getElementById('qrCodeContainer');
+      qrBox.innerHTML = '';
+      try {
+        if (typeof QRCode !== 'undefined') {
+          new QRCode(qrBox, {
+            text: link,
+            width: 190,
+            height: 190,
+            colorDark: '#0f172a',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.M
+          });
+        } else {
+          qrBox.innerHTML = `<div class="p-4 text-sm font-bold text-slate-700">קוד החדר להזנה: <span dir="ltr" class="text-indigo-700 font-black">${currentRoomId}</span></div>`;
+        }
+      } catch (e) {
+        qrBox.innerHTML = `<div class="p-4 text-sm font-bold text-slate-700">קוד החדר: <span dir="ltr" class="text-indigo-700 font-black">${currentRoomId}</span></div>`;
+      }
+    };
+
+    window.closeQrModal = function() {
+      document.getElementById('qrShareModal').classList.add('hidden');
+    };
+
+    window.copyStudentLink = function() {
+      const inp = document.getElementById('qrDirectLinkInput');
+      if (!inp) return;
+      inp.select();
+      inp.setSelectionRange(0, 99999);
+      try {
+        document.execCommand('copy');
+        showToast('הקישור לתלמידים הועתק! אפשר לשלוח בוואטסאפ או בקלאסרום');
+      } catch (err) {
+        showToast(`קוד החדר הוא: ${currentRoomId}`);
+      }
+    };
+
+    function refreshTimerDisplay() {
+      const mins = Math.floor(timerSeconds / 60);
+      const secs = timerSeconds % 60;
+      const disp = document.getElementById('timerDisplay');
+      const btn = document.getElementById('timerToggleBtn');
+      const box = document.getElementById('timerWidgetBox');
+
+      if (disp) disp.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      if (btn) {
+        btn.textContent = timerIsRunning ? 'השהה' : 'התחל';
+        btn.className = timerIsRunning
+          ? 'px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-extrabold transition cursor-pointer'
+          : 'px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-extrabold transition cursor-pointer';
+      }
+      if (box) box.classList.toggle('timer-ended', timerSeconds === 0);
+    }
+
+    function playGentleEndChime() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        [523.25, 659.25, 783.99].forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.2);
+          gain.gain.setValueAtTime(0.14, ctx.currentTime + idx * 0.2);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.2 + 0.55);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + idx * 0.2);
+          osc.stop(ctx.currentTime + idx * 0.2 + 0.6);
+        });
+      } catch (e) {}
+    }
+
+    window.toggleTimer = function() {
+      if (timerIsRunning) {
+        clearInterval(timerInterval);
+        timerIsRunning = false;
+        refreshTimerDisplay();
+        return;
+      }
+      if (timerSeconds <= 0) timerSeconds = TIMER_INITIAL_SECONDS;
+      timerIsRunning = true;
+      refreshTimerDisplay();
+      timerInterval = setInterval(() => {
+        if (timerSeconds > 0) {
+          timerSeconds--;
+          refreshTimerDisplay();
+          if (timerSeconds === 0) {
+            clearInterval(timerInterval);
+            timerIsRunning = false;
+            refreshTimerDisplay();
+            playGentleEndChime();
+            showToast('הסתיימו 10 דקות העבודה בקבוצות — עוברים להצגות ולדיון!');
+          }
+        }
+      }, 1000);
+    };
+
+    window.resetTimer = function() {
+      clearInterval(timerInterval);
+      timerIsRunning = false;
+      timerSeconds = TIMER_INITIAL_SECONDS;
+      refreshTimerDisplay();
+    };
+
+    document.addEventListener('keydown', (e) => {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+      if (spotlightGroupId !== null) {
+        if (e.key === 'Escape') closeSpotlightMode();
+        if (e.key === 'ArrowLeft') stepSpotlightGroup(1);
+        if (e.key === 'ArrowRight') stepSpotlightGroup(-1);
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      refreshTimerDisplay();
+      renderApp();
+      initFirebase();
+    });
+  </script>
+</body>
+</html>
